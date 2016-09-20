@@ -7,10 +7,9 @@ namespace MyGame
 
 	USING_NS_CC;
 
-	cocos2d::Scene* TitleScene::CreateScene()
+	TitleScene* TitleScene::CreateScene()
 	{
 		auto scene = TitleScene::create();
-
 
 		return scene;
 	}

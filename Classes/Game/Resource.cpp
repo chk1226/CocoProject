@@ -24,5 +24,6 @@ namespace MyGame
 		// sprite file name
 		SpriteName.Square1x1 = "original1x1.png";
 		SpriteName.Option = "option.png";
+		SpriteName.Bird = "Frame-1.png";
 	}
 }

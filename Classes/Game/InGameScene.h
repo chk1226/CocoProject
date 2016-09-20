@@ -3,36 +3,40 @@
 
 #include "cocos2d.h"
 #include "Game\TitleScene.h"
+#include "Game\Role.h"
 
 namespace MyGame
 {
 	class InGameScene : public cocos2d::Scene
 	{
 	public:
-		static cocos2d::Scene* CreateScene();
+		typedef std::function<void()> TouchBeganCallback;
 
-		virtual bool init();
+		static InGameScene* CreateScene();
+
+		virtual bool init() override;
+
+		InGameScene::~InGameScene();
+	private:
+
+		cocos2d::Layer* cacheRoleLayer;
+		cocos2d::Layer* cacheGUILayer;
+		std::vector<TouchBeganCallback> m_TouchBeganCallbackList;
+
+		void guiLayerInit();
+		void roleLayerInit();
+		void returnTitleScene();
 
 		//// implement the create() method manually
 		CREATE_FUNC(InGameScene);
-	private:
-
-		cocos2d::Layer* cacheCharacterLayer;
-		cocos2d::Layer* cacheGUILayer;
-
-
-		void guiInit();
-		void returnTitleScene();
 	};
 
 	//InGameScene::InGameScene()
 	//{
 	//}
 
-	//InGameScene::~InGameScene()
 	//{
 	//}
-
 
 
 }

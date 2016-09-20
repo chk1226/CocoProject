@@ -8,19 +8,19 @@ namespace MyGame
 	class TitleScene : public cocos2d::Scene
 	{
 	public:
-		static cocos2d::Scene* CreateScene();
+		static TitleScene* CreateScene();
 
 
-		virtual bool init();
+		virtual bool init() override;
 		
-		//// implement the create() method manually
-		CREATE_FUNC(TitleScene);
 
 	private:
 		cocos2d::Layer* cacheMiddleLayer;
 
 		void onStartGame();
 		void startButtonInit();
+		//// implement the create() method manually
+		CREATE_FUNC(TitleScene);
 	};
 
 }

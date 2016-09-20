@@ -14,6 +14,7 @@ namespace MyGame
 		{
 			std::string Square1x1;
 			std::string Option;
+			std::string Bird;
 		};
 
 		const SpriteFileName& GetSpriteName();

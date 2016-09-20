@@ -12,6 +12,7 @@ namespace MyFramework
 
 	std::string Convert(float num);
 
+	float Lerp(float a, float b, float f);
 }
 
 #endif
