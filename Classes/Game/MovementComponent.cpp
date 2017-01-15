@@ -20,6 +20,7 @@ namespace MyGame
 
 	void MovementComponent::Update(float delta)
 	{
+		if (!Enable) return;
 		if (m_Master == nullptr) return;
 
 		if (m_State == State::Gravity)
@@ -62,6 +63,11 @@ namespace MyGame
 
 	void MovementComponent::InjectBurst()
 	{
+		if (!Enable)
+		{
+			return;
+		}
+
 		m_CurrentVelocity.y = BurstVelocity;
 		m_ToVecloityY = 0;
 		m_Frequence = 0.9f;

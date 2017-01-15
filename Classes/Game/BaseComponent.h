@@ -2,6 +2,7 @@
 #define _BASE_COMPONENT_H_
 
 #include "cocos2d.h"
+#include "Game\Logger.h"
 
 namespace MyGame
 {
@@ -36,10 +37,20 @@ namespace MyGame
 
 		virtual ~BaseComponent() {}
 
+		bool Enable;
+
 	protected:
 		BaseComponent(cocos2d::Node* master)
 		{
-			m_Master = master;
+			if (master != nullptr)
+			{
+				m_Master = master;
+				Enable = true;
+			}
+			else
+			{
+				MyLog("Component construct error : parameter is null");
+			}
 		}
 
 		cocos2d::Node* m_Master;

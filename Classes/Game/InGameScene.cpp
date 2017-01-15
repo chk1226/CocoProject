@@ -7,22 +7,36 @@ namespace MyGame
 {
 	USING_NS_CC;
 
-	InGameScene* InGameScene::CreateScene()
+	Scene* InGameScene::CreateScene()
 	{
-		auto scene = InGameScene::create();
+		auto scene = Scene::createWithPhysics();
+		if (!scene)
+		{
+			return nullptr;
+		}
+
+		scene->getPhysicsWorld()->setGravity(Vec2::ZERO);
+		scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+		
+		auto layer = InGameScene::create();
+		scene->addChild(layer);
+
+
 		return scene;
 	}
 
 	bool InGameScene::init()
 	{
 		// base init
-		if (!Scene::init())
+		if (!Layer::init())
 		{
 			return false;
 		}
 
 
 		// initial layer
+		cacheMapLayer = Layer::create();
+		this->addChild(cacheMapLayer);
 		cacheRoleLayer = Layer::create();
 		this->addChild(cacheRoleLayer);
 		cacheGUILayer = Layer::create();
@@ -30,6 +44,7 @@ namespace MyGame
 
 		guiLayerInit();
 		roleLayerInit();
+		mapLayerInit();
 
 		return true;
 		
@@ -108,11 +123,16 @@ namespace MyGame
 
 	void InGameScene::roleLayerInit()
 	{
-		auto role = Role::CreateRole();
+		cacheRole = Role::CreateRole();
+		m_TouchBeganCallbackList.push_back(std::bind(&Role::OnTouchBegin, cacheRole));
 
-		m_TouchBeganCallbackList.push_back(std::bind(&Role::OnTouchBegin, role));
+		cacheRoleLayer->addChild(cacheRole);
+	}
 
-		cacheRoleLayer->addChild(role);
+	void InGameScene::mapLayerInit()
+	{
+		cacheMap = Map::CreateMap();
+		cacheMapLayer->addChild(cacheMap);
 	}
 
 	void InGameScene::returnTitleScene()

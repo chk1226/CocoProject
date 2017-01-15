@@ -31,6 +31,8 @@ namespace MyGame
 		std::vector<std::shared_ptr<BaseComponent>> m_ComponentList;
 		std::vector<std::function<void()>> m_TouchBeginListenerList;
 
+		bool onContactBegin(cocos2d::PhysicsContact& contact);
+
 		CREATE_FUNC(Role);
 	};
 
