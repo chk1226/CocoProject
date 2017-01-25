@@ -4,36 +4,10 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>tileBlue_01.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{200,134},{64,50}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,50}}</string>
-                <key>sourceSize</key>
-                <string>{64,50}</string>
-            </dict>
-            <key>tileBlue_02.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{134,134},{64,50}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,50}}</string>
-                <key>sourceSize</key>
-                <string>{64,50}</string>
-            </dict>
             <key>tileBlue_03.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{332,68},{64,64}}</string>
+                <string>{{131,131},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,7 +20,7 @@
             <key>tileBlue_04.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{266,68},{64,64}}</string>
+                <string>{{131,66},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -59,7 +33,7 @@
             <key>tileBlue_05.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{200,68},{64,64}}</string>
+                <string>{{66,131},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +46,7 @@
             <key>tileBlue_06.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{134,68},{64,64}}</string>
+                <string>{{66,66},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +59,7 @@
             <key>tileBlue_07.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{68,398},{64,64}}</string>
+                <string>{{131,1},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,111 +72,7 @@
             <key>tileBlue_08.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{68,332},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_09.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{68,266},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_10.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{68,200},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_11.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{68,134},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_12.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{68,68},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_13.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{398,2},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_14.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{332,2},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_15.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{266,2},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_16.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{200,2},{64,64}}</string>
+                <string>{{66,1},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -215,59 +85,7 @@
             <key>tileBlue_17.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{134,2},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_18.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{68,2},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_19.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,398},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_20.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,332},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_21.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,266},{64,64}}</string>
+                <string>{{1,131},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -280,7 +98,7 @@
             <key>tileBlue_22.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,200},{64,64}}</string>
+                <string>{{1,66},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -293,7 +111,7 @@
             <key>tileBlue_23.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,134},{64,64}}</string>
+                <string>{{1,1},{64,64}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -302,58 +120,6 @@
                 <string>{{0,0},{64,64}}</string>
                 <key>sourceSize</key>
                 <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_24.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,68},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_25.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{2,2},{64,64}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,64}}</string>
-                <key>sourceSize</key>
-                <string>{64,64}</string>
-            </dict>
-            <key>tileBlue_26.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{398,120},{64,50}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,50}}</string>
-                <key>sourceSize</key>
-                <string>{64,50}</string>
-            </dict>
-            <key>tileBlue_27.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{398,68},{64,50}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{64,50}}</string>
-                <key>sourceSize</key>
-                <string>{64,50}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -363,9 +129,9 @@
             <key>realTextureFileName</key>
             <string>core.png</string>
             <key>size</key>
-            <string>{512,512}</string>
+            <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:58815d9fa2f420ebaa959a334446f934:434cce7bedc046d2b55b0bbe2281e9a7:faa77a802a9eea76370e25974140ec4e$</string>
+            <string>$TexturePacker:SmartUpdate:78109b9efc8660e49183679b35099080:5ccf6a87a46f93e5ef658ade2c750699:faa77a802a9eea76370e25974140ec4e$</string>
             <key>textureFileName</key>
             <string>core.png</string>
         </dict>

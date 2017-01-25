@@ -30,9 +30,31 @@ namespace MyGame
 		cocos2d::SpriteFrame* spriteFrame;
 		if (m_Core)
 		{
-			spriteFrame = m_Core->getSpriteFrameByName(filename);
+			spriteFrame = m_Core->getSpriteFrameByName(filename + ".png");
 		}
 		return spriteFrame;
+	}
+
+	cocos2d::SpriteFrame * Resource::GetBackgroundFrame(std::string filename)
+	{
+		cocos2d::SpriteFrame* spriteFrame;
+		if (m_Character)
+		{
+			spriteFrame = m_Background->getSpriteFrameByName(filename);
+		}
+		return spriteFrame;
+	}
+
+	const cocos2d::Color3B & Resource::GetBackgroundColor()
+	{
+		switch (BackgroundSet)
+		{
+		case EBackgroundSet::B_1:
+			return B_1c;
+		default:
+			return cocos2d::Color3B::WHITE;
+			
+		}
 	}
 
 	Resource::~Resource()
@@ -58,6 +80,13 @@ namespace MyGame
 			std::string plistStr = "core.plist";
 			m_Core->addSpriteFramesWithFile(plistStr);
 		}
+
+		if (m_Background)
+		{
+			std::string plistStr = "background.plist";
+			m_Background->addSpriteFramesWithFile(plistStr);
+		}
+
 
 		// sprite file name
 		SpriteName.Square1x1 = "original1x1.png";

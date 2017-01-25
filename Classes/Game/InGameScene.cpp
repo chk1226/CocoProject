@@ -37,6 +37,10 @@ namespace MyGame
 		// initial layer
 		cacheMapLayer = Layer::create();
 		this->addChild(cacheMapLayer);
+		cacheBackgroundLayer = Layer::create();
+		this->addChild(cacheBackgroundLayer);
+		cacheTerrainLayer = Layer::create();
+		this->addChild(cacheTerrainLayer);
 		cacheRoleLayer = Layer::create();
 		this->addChild(cacheRoleLayer);
 		cacheGUILayer = Layer::create();
@@ -133,6 +137,9 @@ namespace MyGame
 	{
 		cacheMap = Map::CreateMap();
 		cacheMapLayer->addChild(cacheMap);
+		cacheMap->CacheBackgroundLayer = cacheBackgroundLayer;
+		cacheMap->CacheTerrainLayer = cacheTerrainLayer;
+		cacheMap->SetUp();
 	}
 
 	void InGameScene::returnTitleScene()

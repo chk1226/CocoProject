@@ -31,7 +31,7 @@ namespace MyGame
 		float rate = 4;
 		m_CurrentVelocity.y = MyFramework::Lerp(m_CurrentVelocity.y, m_ToVecloityY, m_Frequence * delta * rate);
 
-		MyLog("m_Velocity : %f", m_CurrentVelocity.y);
+		//MyLog("m_Velocity : %f", m_CurrentVelocity.y);
 
 
 		m_Master->setPositionY(m_Master->getPositionY() + m_CurrentVelocity.y * delta);

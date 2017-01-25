@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>3.3.2</string>
         <key>fileName</key>
-        <string>D:/WorkSpace/C++Project/MyFlappyBird/Art/core.tps</string>
+        <string>D:/WorkSpace/C++Project/MyFlappyBird/Art/background.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -28,7 +28,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <false/>
+        <true/>
         <key>premultiplyAlpha</key>
         <false/>
         <key>shapeDebug</key>
@@ -38,7 +38,7 @@
         <key>dataFormat</key>
         <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>../Resources/core.png</filename>
+        <filename>../Resources/background.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -56,7 +56,7 @@
             </struct>
         </struct>
         <key>shapePadding</key>
-        <uint>1</uint>
+        <uint>2</uint>
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
@@ -68,7 +68,7 @@
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
-        <uint>1</uint>
+        <uint>2</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
@@ -131,7 +131,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Resources/core.plist</filename>
+                <filename>../Resources/background.plist</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -172,15 +172,8 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_03.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_04.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_05.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_06.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_07.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_08.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_17.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_22.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_23.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set1_hills.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set1_tiles.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
