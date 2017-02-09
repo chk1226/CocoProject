@@ -179,8 +179,8 @@
             <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_07.png</filename>
             <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_08.png</filename>
             <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_17.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_22.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_23.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Other/doorOpen.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Other/doorOpen_top.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -10,6 +10,8 @@ namespace MyGame
 
 	const int RoleBitmask = 1;
 	const int TerrainBitmask = 2;
+	const int PassBitmask = 3;
+	const int ObstacleBitmask = 4;
 
 
 	class Resource
@@ -28,6 +30,10 @@ namespace MyGame
 		const char* FloorBlueTMX = "tiled/floor_blue.tmx";
 		const char* BackgroundSetHill = "set%d_hills.png";
 		const char* BackgroundSetTiles = "set%d_tiles.png";
+		const char* ObstacleName = "doorOpen";
+		const char* ObstacleEndName = "doorOpen_top";
+		const char* PassName = "tileBlue_08";
+
 
 		const cocos2d::Color3B B_1c = cocos2d::Color3B(216, 191, 158);
 

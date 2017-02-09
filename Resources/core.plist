@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>tileBlue_03.png</key>
+            <key>doorOpen.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{131,131},{64,64}}</string>
@@ -17,7 +17,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_04.png</key>
+            <key>doorOpen_top.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{131,66},{64,64}}</string>
@@ -30,7 +30,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_05.png</key>
+            <key>tileBlue_03.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{66,131},{64,64}}</string>
@@ -43,7 +43,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_06.png</key>
+            <key>tileBlue_04.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{66,66},{64,64}}</string>
@@ -56,7 +56,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_07.png</key>
+            <key>tileBlue_05.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{131,1},{64,64}}</string>
@@ -69,7 +69,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_08.png</key>
+            <key>tileBlue_06.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{66,1},{64,64}}</string>
@@ -82,7 +82,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_17.png</key>
+            <key>tileBlue_07.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1,131},{64,64}}</string>
@@ -95,7 +95,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_22.png</key>
+            <key>tileBlue_08.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1,66},{64,64}}</string>
@@ -108,7 +108,7 @@
                 <key>sourceSize</key>
                 <string>{64,64}</string>
             </dict>
-            <key>tileBlue_23.png</key>
+            <key>tileBlue_17.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1,1},{64,64}}</string>
@@ -131,7 +131,7 @@
             <key>size</key>
             <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:78109b9efc8660e49183679b35099080:5ccf6a87a46f93e5ef658ade2c750699:faa77a802a9eea76370e25974140ec4e$</string>
+            <string>$TexturePacker:SmartUpdate:274484fac38dd2c305089980ca49e0bd:5f9cbb096e13f9701f08daaffa2ad378:faa77a802a9eea76370e25974140ec4e$</string>
             <key>textureFileName</key>
             <string>core.png</string>
         </dict>

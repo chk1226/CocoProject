@@ -39,6 +39,8 @@ namespace MyGame
 		this->addChild(cacheMapLayer);
 		cacheBackgroundLayer = Layer::create();
 		this->addChild(cacheBackgroundLayer);
+		cacheObstacleLayer = Layer::create();
+		this->addChild(cacheObstacleLayer);
 		cacheTerrainLayer = Layer::create();
 		this->addChild(cacheTerrainLayer);
 		cacheRoleLayer = Layer::create();
@@ -139,6 +141,7 @@ namespace MyGame
 		cacheMapLayer->addChild(cacheMap);
 		cacheMap->CacheBackgroundLayer = cacheBackgroundLayer;
 		cacheMap->CacheTerrainLayer = cacheTerrainLayer;
+		cacheMap->CacheObstacleLayer = cacheObstacleLayer;
 		cacheMap->SetUp();
 	}
 

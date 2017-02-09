@@ -9,10 +9,13 @@ namespace MyGame
 {
 	USING_NS_CC;
 	
-	const float terrainGroupSpeed = -100.0f;
+	const float terrainGroupSpeed = -150.0f;
 	const float backgroundTilesSpeed = -30.0f;
 	const float backgroundHillSpeed = -60.0f;
 	const float texOffset = 1;
+	const Vec2 obstacleHeightRange = Vec2(2, 8);	
+	const Vec2 obstacleAppearRange = Vec2(400.f, 400.f);
+	const int obstaclePassRange = 3;
 
 	Map::~Map() 
 	{
@@ -20,6 +23,35 @@ namespace MyGame
 		{
 			delete floorTmx;
 		}
+
+		m_TerrainGroup.clear();
+		m_RegTerrainGroup.clear();
+		m_BackgroundTilesGroup.clear();
+		m_BackgroundHillGroup.clear();
+		m_ObstacleList.clear();
+		m_ObstacleEndList.clear();
+		m_PassList.clear();
+
+		m_Obstacle->release();
+		for (auto it = m_ObstacleList.begin(); it != m_ObstacleList.end(); ++it)
+		{
+			(*it)->release();
+		}
+		m_ObstacleList.clear();
+
+		m_ObstacleEnd->release();
+		for (auto it = m_ObstacleEndList.begin(); it != m_ObstacleEndList.end(); ++it)
+		{
+			(*it)->release();
+		}
+		m_ObstacleEndList.clear();
+
+		m_Pass->release();
+		for (auto it = m_PassList.begin(); it != m_PassList.end(); ++it)
+		{
+			(*it)->release();
+		}
+		m_PassList.clear();
 	}
 
 	Map * Map::CreateMap()
@@ -45,6 +77,7 @@ namespace MyGame
 	{
 		terrainMove(delta);
 		backgroundMove(delta);
+		obstacleMove(delta);
 	}
 
 	void Map::SetUp()
@@ -57,6 +90,7 @@ namespace MyGame
 
 		auto map = floorTmx->getMap("floor");
 
+		// terrain
 		auto terrainGroup = Node::create();
 		for (int i = 0; i < map->getHeight(); ++i)
 		{
@@ -134,6 +168,45 @@ namespace MyGame
 			CacheTerrainLayer->addChild(clone);
 		}
 
+		// obstacle set up
+		{
+			auto r = ResourceInstance;
+			m_Obstacle = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(r->ObstacleName));
+			m_Obstacle->retain();
+			if (m_Obstacle)
+			{
+				auto physicsBody = PhysicsBody::createBox(m_Obstacle->getContentSize(), PhysicsMaterial(0, 0, 0));
+				physicsBody->setContactTestBitmask(ObstacleBitmask);
+				physicsBody->setDynamic(false);
+				m_Obstacle->setPhysicsBody(physicsBody);
+			}
+
+			m_ObstacleEnd = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(r->ObstacleEndName));
+			m_ObstacleEnd->retain();
+			if (m_ObstacleEnd)
+			{
+				auto physicsBody = PhysicsBody::createBox(m_ObstacleEnd->getContentSize(), PhysicsMaterial(0, 0, 0));
+				physicsBody->setContactTestBitmask(ObstacleBitmask);
+				physicsBody->setDynamic(false);
+				m_ObstacleEnd->setPhysicsBody(physicsBody);
+			}
+			
+
+			m_Pass = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(r->PassName));
+			m_Pass->retain();
+			if (m_Pass)
+			{
+				auto physicsBody = PhysicsBody::createBox(m_Pass->getContentSize(), PhysicsMaterial(0, 0, 0));
+				physicsBody->setContactTestBitmask(PassBitmask);
+				physicsBody->setDynamic(false);
+				m_Pass->setPhysicsBody(physicsBody);
+				m_Pass->setVisible(false);
+			}
+			
+			CacheObstacleLayer->setPositionY(terrainGroup->getContentSize().height);
+			appearDistance = RandomHelper::random_int<int>(obstacleAppearRange.x, obstacleAppearRange.y);
+		}
+
 		// background set up
 		auto image = Sprite::create();
 		image->setColor(ResourceInstance->GetBackgroundColor());
@@ -152,7 +225,7 @@ namespace MyGame
 			auto bkImage = Sprite::createWithSpriteFrame(ResourceInstance->GetBackgroundFrame(buff));
 			if (bkImage)
 			{
-				bkImage->setPosition(i * (bkImage->getContentSize().width - texOffset), offset.y);
+				bkImage->setPosition(i * (bkImage->getContentSize().width - texOffset), offset.y + 50);
 				m_BackgroundTilesGroup.push_back(bkImage);
 				CacheBackgroundLayer->addChild(bkImage, 0);
 
@@ -163,7 +236,7 @@ namespace MyGame
 			bkImage = Sprite::createWithSpriteFrame(ResourceInstance->GetBackgroundFrame(buff));
 			if (bkImage)
 			{
-				bkImage->setPosition(i * (bkImage->getContentSize().width - texOffset), offset.y - 100);
+				bkImage->setPosition(i * (bkImage->getContentSize().width - texOffset), offset.y - 50);
 				m_BackgroundHillGroup.push_back(bkImage);
 				CacheBackgroundLayer->addChild(bkImage, 1);
 			}
@@ -253,6 +326,150 @@ namespace MyGame
 
 
 		}
+
+	}
+
+	const int obstacleTag = 1;
+	const int obstacleEndListTag = 2;
+	const int passTag = 3;
+	const int viewOutBuffer = 50;
+
+	void Map::obstacleMove(float delta)
+	{
+		auto child = CacheObstacleLayer->getChildren();
+		auto offset = terrainGroupSpeed * delta;
+		for (auto i = 0; i < child.size(); ++i)
+		{
+			auto node = child.at(i);
+			node->setPositionX(node->getPositionX() + offset);
+		
+			// recycle obstacle
+			if (node->getPositionX() < -viewOutBuffer)
+			{
+				auto subChild = node->getChildren();
+				for (auto subIt = subChild.begin(); subIt != subChild.end(); ++subIt)
+				{
+					switch ((*subIt)->getTag())
+					{
+					case obstacleTag:
+						m_ObstacleList.push_back((*subIt));
+						break;
+
+					case obstacleEndListTag:
+						(*subIt)->setRotationQuat(Quaternion::identity());
+						m_ObstacleEndList.push_back((*subIt));
+						break;
+
+					case passTag:
+						m_PassList.push_back((*subIt));
+						break;
+					}
+
+				}
+				
+				CacheObstacleLayer->removeChild(node);
+				child = CacheObstacleLayer->getChildren();
+				i--;
+
+			}
+
+		}
+		
+		MyLog("appearDistance %d", appearDistance);
+
+		if (appearDistance <= 0)
+		{
+			auto fillUpFunc = [](std::vector<Node*>& list, cocos2d::Node* source, int num)
+			{
+				for (int i = 0; i < num; ++i)
+				{
+					auto clone = MyFramework::CloneSingleCCNode(source);
+					if (clone)
+					{
+						clone->retain();
+						list.push_back(clone);
+					}
+				}
+			};
+
+			auto visibleSize = Director::getInstance()->getVisibleSize();
+			auto origin = Director::getInstance()->getVisibleOrigin();
+			auto node = Node::create();
+			node->setPositionX(visibleSize.width + viewOutBuffer);
+
+			// set pass obstacle
+			int passHeight = 3;
+			int startPass = RandomHelper::random_int<int>(obstacleHeightRange.x, obstacleHeightRange.y);
+
+			for (int i = 0; i < passHeight; i++)
+			{
+				if (m_PassList.size() == 0)
+				{
+					fillUpFunc(m_PassList, m_Pass, 1);
+				}
+
+				auto clone = m_PassList[0];
+				m_PassList.erase(m_PassList.begin());
+				clone->setPositionY((startPass + i) * clone->getContentSize().height);
+				node->addChild(clone, 0, passTag);
+			}
+
+			// set obstacle end
+			if (m_ObstacleEndList.size() < 2)
+			{
+				fillUpFunc(m_ObstacleEndList, m_ObstacleEnd, 2);
+			}
+			{
+				auto up = m_ObstacleEndList[0];
+				m_ObstacleEndList.erase(m_ObstacleEndList.begin());
+				up->setRotation(180);
+				auto end = m_ObstacleEndList[0];
+				m_ObstacleEndList.erase(m_ObstacleEndList.begin());
+
+				up->setPositionY((startPass + passHeight) * up->getContentSize().height);
+				node->addChild(up, 0, obstacleEndListTag);
+				end->setPositionY((startPass - 1) * end->getContentSize().height);
+				node->addChild(end, 0, obstacleEndListTag);
+			}
+
+			//set obstacle 
+			for (int i = 0; i < startPass - 1; i++)
+			{
+				if (m_ObstacleList.size() == 0)
+				{
+					fillUpFunc(m_ObstacleList, m_Obstacle, 1);
+				}
+
+				auto clone = m_ObstacleList[0];
+				m_ObstacleList.erase(m_ObstacleList.begin());
+
+				clone->setPositionY(i* clone->getContentSize().height);
+				node->addChild(clone, 0, obstacleTag);
+			}
+			for (int i = startPass + passHeight + 1; i < 14; i++)
+			{
+				if (m_ObstacleList.size() == 0)
+				{
+					fillUpFunc(m_ObstacleList, m_Obstacle, 1);
+				}
+
+				auto clone = m_ObstacleList[0];
+				m_ObstacleList.erase(m_ObstacleList.begin());
+
+				clone->setPositionY(i* clone->getContentSize().height);
+				node->addChild(clone, 0, obstacleTag);
+			}
+
+			CacheObstacleLayer->addChild(node);
+
+			appearDistance = RandomHelper::random_int<int>(obstacleAppearRange.x, obstacleAppearRange.y);
+
+		}
+		else
+		{
+			appearDistance += offset;
+		}
+
 
 	}
 

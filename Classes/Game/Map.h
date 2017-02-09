@@ -11,8 +11,7 @@ namespace MyGame
 
 	class Map : public cocos2d::Node
 	{
-	public:
-		//Role();
+	public:	
 		~Map();
 
 		static Map* CreateMap();
@@ -22,12 +21,8 @@ namespace MyGame
 
 		void SetUp();
 
-		/*void AddComponent(std::shared_ptr<BaseComponent> cmp);
-		void OnTouchBegin();
-
-		void RegisterTouchBeginListener(std::function<void()> func);
-*/
 		cocos2d::Layer* CacheTerrainLayer;
+		cocos2d::Layer* CacheObstacleLayer;
 		cocos2d::Layer* CacheBackgroundLayer;
 
 
@@ -38,12 +33,18 @@ namespace MyGame
 		std::vector<cocos2d::Node*> m_RegTerrainGroup;	// for register
 		std::vector<cocos2d::Node*> m_BackgroundTilesGroup;
 		std::vector<cocos2d::Node*> m_BackgroundHillGroup;
+		cocos2d::Sprite* m_Obstacle;
+		std::vector<cocos2d::Node*> m_ObstacleList;
+		cocos2d::Sprite* m_ObstacleEnd;
+		std::vector<cocos2d::Node*> m_ObstacleEndList;
+		cocos2d::Sprite* m_Pass;
+		std::vector<cocos2d::Node*> m_PassList;
+
+		int appearDistance;
 
 		void terrainMove(float delta);
 		void backgroundMove(float delta);
-
-		//std::vector<std::shared_ptr<BaseComponent>> m_ComponentList;
-		//std::vector<std::function<void()>> m_TouchBeginListenerList;
+		void obstacleMove(float delta);
 
 		//bool onContactBegin(cocos2d::PhysicsContact& contact);
 
@@ -52,14 +53,6 @@ namespace MyGame
 		CREATE_FUNC(Map);
 	};
 
-	//Role::Role()
-	//{
-	//	
-	//}
-
-	//Role::~Role()
-	//{
-	//}
 
 
 

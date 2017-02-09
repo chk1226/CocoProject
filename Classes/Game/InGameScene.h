@@ -23,6 +23,7 @@ namespace MyGame
 		cocos2d::Layer* cacheRoleLayer;
 		cocos2d::Layer* cacheGUILayer;
 		cocos2d::Layer* cacheTerrainLayer;
+		cocos2d::Layer* cacheObstacleLayer;
 		cocos2d::Layer* cacheBackgroundLayer;
 		cocos2d::Layer* cacheMapLayer;
 

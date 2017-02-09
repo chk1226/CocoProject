@@ -27,36 +27,56 @@ cocos2d::Node * MyFramework::CloneCCNode(cocos2d::Node * source)
 
 	for (auto it = children.begin(); it != children.end(); ++it)
 	{
-		cocos2d::Node* subNode;
+		cocos2d::Node* subNode = CloneSingleCCNode((*it));
 
-		if (auto sprite = dynamic_cast<cocos2d::Sprite*>(*it))
+		if (subNode)
 		{
-			auto subSprite = cocos2d::Sprite::create();
-			subSprite->setSpriteFrame(sprite->getSpriteFrame());
-			subSprite->setPosition(sprite->getPosition());
-			subSprite->setAnchorPoint(sprite->getAnchorPoint());
-
-			auto physics = sprite->getPhysicsBody();
-			if (physics)
-			{
-				auto clonePhysicsBody = cocos2d::PhysicsBody::createBox(sprite->getContentSize(), cocos2d::PhysicsMaterial(0, 0, 0));
-				clonePhysicsBody->setContactTestBitmask(physics->getContactTestBitmask());
-				clonePhysicsBody->setDynamic(physics->isDynamic());
-				subSprite->setPhysicsBody(clonePhysicsBody);
-
-			}
-
-			subNode = subSprite;
-		}
-		else
-		{
-			subNode = cocos2d::Node::create();
+			clone->addChild(subNode);
 		}
 
-		clone->addChild(subNode);
 	}
 
 	return clone;
+}
+
+cocos2d::Node * MyFramework::CloneSingleCCNode(cocos2d::Node* source)
+{
+	cocos2d::Node* node;
+	if (source == nullptr)
+	{
+		return node;
+	}
+
+	if (auto sprite = dynamic_cast<cocos2d::Sprite*>(source))
+	{
+		auto subSprite = cocos2d::Sprite::create();
+		subSprite->setSpriteFrame(sprite->getSpriteFrame());
+		
+		auto physics = sprite->getPhysicsBody();
+		if (physics)
+		{
+			auto clonePhysicsBody = cocos2d::PhysicsBody::createBox(sprite->getContentSize(), cocos2d::PhysicsMaterial(0, 0, 0));
+			clonePhysicsBody->setContactTestBitmask(physics->getContactTestBitmask());
+			clonePhysicsBody->setDynamic(physics->isDynamic());
+			subSprite->setPhysicsBody(clonePhysicsBody);
+
+		}
+
+		node = subSprite;
+	}
+	else
+	{
+		node = cocos2d::Node::create();
+	}
+
+	node->setRotationQuat(source->getRotationQuat());
+	node->setPosition(source->getPosition());
+	node->setAnchorPoint(source->getAnchorPoint());
+	node->setContentSize(source->getContentSize());
+	node->setZOrder(source->getZOrder());
+	node->setVisible(source->isVisible());
+
+	return node;
 }
 
 

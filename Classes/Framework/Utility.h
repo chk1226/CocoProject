@@ -16,6 +16,9 @@ namespace MyFramework
 
 	//one-depth clone
 	cocos2d::Node* CloneCCNode(cocos2d::Node* source);
+	// clone single node
+	cocos2d::Node* CloneSingleCCNode(cocos2d::Node* source);
+
 
 	/*
 	static void* LoadFile(const char * filename, bool appendNull)
