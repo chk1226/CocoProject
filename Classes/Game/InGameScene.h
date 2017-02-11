@@ -16,6 +16,8 @@ namespace MyGame
 		static cocos2d::Scene* CreateScene();
 
 		virtual bool init() override;
+		virtual void update(float delta) override;
+
 
 		InGameScene::~InGameScene();
 	private:

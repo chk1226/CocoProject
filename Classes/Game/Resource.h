@@ -52,7 +52,6 @@ namespace MyGame
 		const cocos2d::Color3B& GetBackgroundColor();
 
 
-
 		~Resource();
 		static void Create();
 	private:

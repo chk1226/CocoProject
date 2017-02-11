@@ -1,7 +1,6 @@
 #ifndef _MOVEMENT_COMPONENT_H_
 #define _MOVEMENT_COMPONENT_H_
 
-#include "Game\BaseComponent.h"
 #include "Game\Role.h"
 #include "Framework\Utility.h"
 namespace MyGame
@@ -9,14 +8,16 @@ namespace MyGame
 	extern const float BurstVelocity;
 	extern const float GravityVelocity;
 
-	class MovementComponent : public BaseComponent
+	class MovementComponent : public cocos2d::Component
 	{
 	public:
-		MovementComponent(cocos2d::Node* master);
 
-		virtual void Update(float delta) override;
+		virtual void update(float) override;
+		virtual bool init() override;
+		//static MovementComponent* create();
 
 		void InjectBurst();
+		void Setup();
 		const cocos2d::Vec2& GetCurrentVelocity();
 
 		enum State
@@ -25,6 +26,8 @@ namespace MyGame
 			Burst
 		};
 		//~MovementComponent();
+		
+		CREATE_FUNC(MovementComponent);
 	private:
 		float m_ToVecloityY;
 		float m_Frequence;
@@ -32,6 +35,8 @@ namespace MyGame
 		cocos2d::Vec2 m_CurrentVelocity;
 
 		void gravityCalculate(float delta);
+
+
 	};
 
 

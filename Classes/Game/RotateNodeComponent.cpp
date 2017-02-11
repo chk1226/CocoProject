@@ -6,19 +6,13 @@ namespace MyGame
 
 	USING_NS_CC;
 
-	RotateNodeComponent::RotateNodeComponent(Node * master, std::weak_ptr<MovementComponent> movement) : BaseComponent(master)
+	void RotateNodeComponent::update(float delta)
 	{
-		if (master == nullptr) return;
+		if (!isEnabled()) return;
 
-		cacheRoleImage = master->getChildByName(RoleSpriteName);
-		cacheMovement = movement;
-	}
-
-	void RotateNodeComponent::Update(float delta)
-	{
 		if (cacheRoleImage)
 		{
-			auto movement = cacheMovement.lock();
+			auto movement = cacheMovement;
 			if (movement)
 			{
 				auto velocity = movement->GetCurrentVelocity();
@@ -39,6 +33,27 @@ namespace MyGame
 			}
 
 		}
+	}
+
+	bool RotateNodeComponent::init()
+	{
+		if (!Component::init())
+		{
+			return false;
+		}
+		setName("RotateNodeComponent");
+		return true;
+	}
+
+	void RotateNodeComponent::Setup(MovementComponent* movement)
+	{
+
+		auto owner = getOwner();
+		if (owner)
+		{
+			cacheRoleImage = owner->getChildByName(RoleSpriteName);
+		}
+		cacheMovement = movement;
 	}
 
 

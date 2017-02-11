@@ -33,6 +33,8 @@ namespace MyGame
 			return false;
 		}
 
+		// add schedule update
+		this->scheduleUpdate();
 
 		// initial layer
 		cacheMapLayer = Layer::create();
@@ -54,6 +56,17 @@ namespace MyGame
 
 		return true;
 		
+	}
+
+	void InGameScene::update(float delta)
+	{
+		if (cacheRole->GetState() == Role::State::Fail &&
+			cacheMap->GetState() == Map::State::Run)
+		{
+			cacheMap->SetState(Map::State::Stop);
+		}
+
+
 	}
 
 	InGameScene::~InGameScene()

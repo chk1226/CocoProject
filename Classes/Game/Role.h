@@ -10,28 +10,38 @@ namespace MyGame
 {
 	extern const std::string RoleSpriteName;
 
+	class MovementComponent;
+	class RotateNodeComponent;
 	class Role : public cocos2d::Node
 	{
 	public:
 		//Role();
 		//~Role();
 
+		enum State
+		{
+			Alive,
+			Fail
+		};
+
 		static Role* CreateRole();
 
 		virtual bool init() override;
 		virtual void update(float delta) override;
 
-		void AddComponent(std::shared_ptr<BaseComponent> cmp);
 		void OnTouchBegin();
-
 		void RegisterTouchBeginListener(std::function<void()> func);
+		State GetState() { return m_state; }
 
 	private:
+		MyGame::MovementComponent* cacheMovement;
+		MyGame::RotateNodeComponent* cacheRotateNode;
+		State m_state;
 
-		std::vector<std::shared_ptr<BaseComponent>> m_ComponentList;
 		std::vector<std::function<void()>> m_TouchBeginListenerList;
-
 		bool onContactBegin(cocos2d::PhysicsContact& contact);
+		void gameOver();
+
 
 		CREATE_FUNC(Role);
 	};

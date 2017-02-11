@@ -24,6 +24,8 @@ namespace MyGame
 
 		this->scheduleUpdate();
 
+		// sate init
+		m_state = State::Alive;
 
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		auto origin = Director::getInstance()->getVisibleOrigin();
@@ -51,16 +53,14 @@ namespace MyGame
 		
 
 		// add movement component
-		auto movement = std::shared_ptr<MovementComponent>(new MovementComponent(this));
-		auto cmp = std::dynamic_pointer_cast<BaseComponent>(movement);
-		AddComponent(cmp);
-		RegisterTouchBeginListener(std::bind(&MovementComponent::InjectBurst, movement));
+		cacheMovement = MovementComponent::create();
+		this->addComponent(cacheMovement);
+		RegisterTouchBeginListener(std::bind(&MovementComponent::InjectBurst, cacheMovement));
 		
 		// add rotation node component
-		auto rotateNode = std::shared_ptr<RotateNodeComponent>(new RotateNodeComponent(this, movement));
-		cmp = std::dynamic_pointer_cast<BaseComponent>(rotateNode);
-		AddComponent(cmp);
-		
+		cacheRotateNode = RotateNodeComponent::create();
+		this->addComponent(cacheRotateNode);
+		cacheRotateNode->Setup(cacheMovement);
 
 		return true;
 
@@ -68,21 +68,9 @@ namespace MyGame
 
 	void Role::update(float delta)
 	{
-		for (auto it = m_ComponentList.begin(); it != m_ComponentList.end(); ++it)
-		{
-			if ((*it))
-			{
-				(*it)->Update(delta);
-			}
-		}
+		cocos2d::Node::update(delta);
 	}
 
-
-	void Role::AddComponent(std::shared_ptr<BaseComponent> cmp)
-	{
-		m_ComponentList.push_back(cmp);
-
-	}
 
 	void Role::OnTouchBegin()
 	{
@@ -106,21 +94,50 @@ namespace MyGame
 		if ((RoleBitmask == a->getContactTestBitmask() && TerrainBitmask == b->getContactTestBitmask()) ||
 			(TerrainBitmask == a->getContactTestBitmask() && RoleBitmask == b->getContactTestBitmask()))
 		{
-			
-			for (auto it = m_ComponentList.begin(); it != m_ComponentList.end(); ++it)
-			{
-				auto movement = dynamic_pointer_cast<MovementComponent>((*it));
-				if (movement != nullptr)
-				{
-					(*it)->Enable = false;
-				}
-			}
+			// game over
+			gameOver();
 
-			MyLog("COLLISION HAS OCCURED");
+			MyLog("TERRAIN COLLISION HAS OCCURED");
+			return true;
+		}
+
+		if ((RoleBitmask == a->getContactTestBitmask() && ObstacleBitmask == b->getContactTestBitmask()) ||
+			(ObstacleBitmask == a->getContactTestBitmask() && RoleBitmask == b->getContactTestBitmask()))
+		{
+			// game over
+			gameOver();
+
+			MyLog("OBSTACLE COLLISION HAS OCCURED");
+			return true;
+		}
+
+		if ((RoleBitmask == a->getContactTestBitmask() && PassBitmask == b->getContactTestBitmask()) ||
+			(PassBitmask == a->getContactTestBitmask() && RoleBitmask == b->getContactTestBitmask()))
+		{
+			// pass
+			
+			//TODO...
+
+			MyLog("OBSTACLE COLLISION HAS OCCURED");
 			return true;
 		}
 
 		return false;
+	}
+
+	void Role::gameOver()
+	{
+		if (cacheMovement)
+		{
+			cacheMovement->setEnabled(false);
+		}
+
+		if (cacheRotateNode)
+		{
+			cacheRotateNode->setEnabled(false);
+		}
+
+		m_state = State::Fail;
 	}
 
 

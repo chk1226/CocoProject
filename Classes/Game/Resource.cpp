@@ -5,10 +5,6 @@ namespace MyGame
 
 	std::shared_ptr<Resource> ResourceInstance;
 
-	//Resource::Resource()
-	//{
-	//
-	//}
 	
 	const Resource::SpriteFileName& Resource::GetSpriteName()
 	{

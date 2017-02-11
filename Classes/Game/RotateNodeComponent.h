@@ -8,20 +8,23 @@
 namespace MyGame
 {
 	class MovementComponent;
-	class RotateNodeComponent : public BaseComponent
+	class RotateNodeComponent : public cocos2d::Component
 	{
 	public:
-		RotateNodeComponent(cocos2d::Node* master, std::weak_ptr<MovementComponent> movement);
+		//RotateNodeComponent(cocos2d::Node* master, std::weak_ptr<MovementComponent> movement);
 
-		virtual void Update(float delta) override;
-
+		virtual void update(float delta) override;
+		virtual bool init() override;
+		
+		//static RotateNodeComponent* create( MovementComponent* movement);
+		void Setup(MovementComponent* movement);
 
 		//~RotateNodeComponent();
-
+		CREATE_FUNC(RotateNodeComponent);
 	private:
 		cocos2d::Node* cacheRoleImage;
+		MovementComponent* cacheMovement;
 
-		std::weak_ptr<MyGame::MovementComponent> cacheMovement;
 	};
 
 	

@@ -75,13 +75,21 @@ namespace MyGame
 
 	void Map::update(float delta)
 	{
-		terrainMove(delta);
-		backgroundMove(delta);
-		obstacleMove(delta);
+		if (m_state == State::Run)
+		{
+			terrainMove(delta);
+			backgroundMove(delta);
+			obstacleMove(delta);
+
+		}
+
 	}
 
 	void Map::SetUp()
 	{
+		// state setup
+		m_state = State::Run;
+
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		auto origin = Director::getInstance()->getVisibleOrigin();
 

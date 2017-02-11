@@ -8,20 +8,22 @@ namespace MyGame
 	const float GravityVelocity = -500.f;
 
 
-	MovementComponent::MovementComponent(cocos2d::Node* master) : BaseComponent(master)
+	bool MovementComponent::init()
 	{
-		if (m_Master == nullptr) return;
-
-		m_ToVecloityY = GravityVelocity;
-		m_State = State::Gravity;
+		if (!Component::init())
+		{
+			return false;
+		}
+		setName("MovementComponent");
+		return true;
 	}
 
-	
 
-	void MovementComponent::Update(float delta)
+	void MovementComponent::update(float delta)
 	{
-		if (!Enable) return;
-		if (m_Master == nullptr) return;
+		if (!isEnabled()) return;
+		auto master = getOwner();
+		if (!master) return;
 
 		if (m_State == State::Gravity)
 		{
@@ -33,9 +35,7 @@ namespace MyGame
 
 		//MyLog("m_Velocity : %f", m_CurrentVelocity.y);
 
-
-		m_Master->setPositionY(m_Master->getPositionY() + m_CurrentVelocity.y * delta);
-
+		master->setPositionY(master->getPositionY() + m_CurrentVelocity.y * delta);
 
 		if (m_State == State::Burst)
 		{
@@ -61,9 +61,10 @@ namespace MyGame
 		
 	}
 
+
 	void MovementComponent::InjectBurst()
 	{
-		if (!Enable)
+		if (!isEnabled())
 		{
 			return;
 		}
@@ -72,6 +73,12 @@ namespace MyGame
 		m_ToVecloityY = 0;
 		m_Frequence = 0.9f;
 		m_State = State::Burst;
+	}
+
+	void MovementComponent::Setup()
+	{
+		m_ToVecloityY = GravityVelocity;
+		m_State = State::Gravity;
 	}
 
 	const cocos2d::Vec2 & MovementComponent::GetCurrentVelocity()

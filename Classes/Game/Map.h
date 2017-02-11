@@ -14,11 +14,20 @@ namespace MyGame
 	public:	
 		~Map();
 
+		enum State
+		{
+			Stop,
+			Run
+		};
+
+
 		static Map* CreateMap();
 
 		virtual bool init() override;
 		virtual void update(float delta) override;
 
+		State GetState() { return m_state; }
+		void SetState(State state) { m_state = state; }
 		void SetUp();
 
 		cocos2d::Layer* CacheTerrainLayer;
@@ -41,6 +50,7 @@ namespace MyGame
 		std::vector<cocos2d::Node*> m_PassList;
 
 		int appearDistance;
+		State m_state;
 
 		void terrainMove(float delta);
 		void backgroundMove(float delta);
