@@ -2,6 +2,7 @@
 #include "Game\Resource.h"
 #include "ui\CocosGUI.h"
 #include "Game\Logger.h"
+#include "Game\GameoverDialog.h"
 
 namespace MyGame
 {
@@ -33,6 +34,8 @@ namespace MyGame
 			return false;
 		}
 
+		m_score = 0;
+
 		// add schedule update
 		this->scheduleUpdate();
 
@@ -53,6 +56,7 @@ namespace MyGame
 		guiLayerInit();
 		roleLayerInit();
 		mapLayerInit();
+		
 
 		return true;
 		
@@ -64,9 +68,25 @@ namespace MyGame
 			cacheMap->GetState() == Map::State::Run)
 		{
 			cacheMap->SetState(Map::State::Stop);
+
+			//show gameover dialog
+			auto dialog = GameoverDialog::create();
+			dialog->Setup(m_score);
+			cacheGUILayer->addChild(dialog);
+
+			if (m_jumpWidget)
+			{
+				m_jumpWidget->setEnabled(false);
+			}
 		}
 
 
+	}
+
+	void InGameScene::ScoreIncreate(int value)
+	{
+		m_score += value;
+		score->setString(MyFramework::Convert(m_score));
 	}
 
 	InGameScene::~InGameScene()
@@ -79,39 +99,13 @@ namespace MyGame
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-		auto spriteName = ResourceInstance->GetSpriteName();
-		auto optionButton = ui::Button::create(spriteName.Option);
-		optionButton->setScale(0.5f);
-		optionButton->setPosition(Vec2(origin.x + visibleSize.width - 50, origin.y + visibleSize.height -70));
-
-		optionButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
-
-			switch (type)
-			{
-			case cocos2d::ui::Widget::TouchEventType::BEGAN:
-				break;
-			case cocos2d::ui::Widget::TouchEventType::MOVED:
-				break;
-			case cocos2d::ui::Widget::TouchEventType::ENDED:
-				returnTitleScene();
-				break;
-			case cocos2d::ui::Widget::TouchEventType::CANCELED:
-				break;
-			default:
-				break;
-			}
-
-		});
-
-		cacheGUILayer->addChild(optionButton, 1);
-
 		// add touch region
-		auto widget = cocos2d::ui::Widget::create();
-		widget->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
-		widget->setContentSize(Size(visibleSize.width, visibleSize.height));
-		widget->setTouchEnabled(true);
+		m_jumpWidget = cocos2d::ui::Widget::create();
+		m_jumpWidget->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
+		m_jumpWidget->setContentSize(Size(visibleSize.width, visibleSize.height));
+		m_jumpWidget->setTouchEnabled(true);
 		
-		widget->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
+		m_jumpWidget->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
 		
 			switch (type)
 			{
@@ -135,8 +129,14 @@ namespace MyGame
 		
 		});
 
-		cacheGUILayer->addChild(widget);
+		cacheGUILayer->addChild(m_jumpWidget);
 
+		//add sorce
+		score = Label::createWithTTF(ResourceInstance->PixelBlockConfig, MyFramework::Convert(m_score));
+		score->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height - 150));
+
+
+		cacheGUILayer->addChild(score);
 	}
 
 
@@ -144,6 +144,7 @@ namespace MyGame
 	{
 		cacheRole = Role::CreateRole();
 		m_TouchBeganCallbackList.push_back(std::bind(&Role::OnTouchBegin, cacheRole));
+		cacheRole->ScoreIncreateCallback = CC_CALLBACK_1(InGameScene::ScoreIncreate, this);
 
 		cacheRoleLayer->addChild(cacheRole);
 	}
@@ -158,14 +159,6 @@ namespace MyGame
 		cacheMap->SetUp();
 	}
 
-	void InGameScene::returnTitleScene()
-	{
-		auto titleScene = TitleScene::CreateScene();
-		auto director = Director::getInstance();
-		director->replaceScene(titleScene);
-	
-	
-	}
 
 
 

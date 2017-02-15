@@ -199,7 +199,7 @@ namespace MyGame
 				m_ObstacleEnd->setPhysicsBody(physicsBody);
 			}
 			
-
+			passFlowNumber = 0;
 			m_Pass = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(r->PassName));
 			m_Pass->retain();
 			if (m_Pass)
@@ -383,7 +383,7 @@ namespace MyGame
 
 		}
 		
-		MyLog("appearDistance %d", appearDistance);
+		//MyLog("appearDistance %d", appearDistance);
 
 		if (appearDistance <= 0)
 		{
@@ -406,8 +406,9 @@ namespace MyGame
 			node->setPositionX(visibleSize.width + viewOutBuffer);
 
 			// set pass obstacle
-			int passHeight = 3;
+			int passHeight = 4;
 			int startPass = RandomHelper::random_int<int>(obstacleHeightRange.x, obstacleHeightRange.y);
+			passFlowNumber++;
 
 			for (int i = 0; i < passHeight; i++)
 			{
@@ -419,6 +420,7 @@ namespace MyGame
 				auto clone = m_PassList[0];
 				m_PassList.erase(m_PassList.begin());
 				clone->setPositionY((startPass + i) * clone->getContentSize().height);
+				clone->setName(MyFramework::Convert(passFlowNumber));
 				node->addChild(clone, 0, passTag);
 			}
 

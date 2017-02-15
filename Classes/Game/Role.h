@@ -24,6 +24,8 @@ namespace MyGame
 			Fail
 		};
 
+		std::function<void(int)> ScoreIncreateCallback;
+
 		static Role* CreateRole();
 
 		virtual bool init() override;
@@ -37,6 +39,7 @@ namespace MyGame
 		MyGame::MovementComponent* cacheMovement;
 		MyGame::RotateNodeComponent* cacheRotateNode;
 		State m_state;
+		std::string passFlowNum;
 
 		std::vector<std::function<void()>> m_TouchBeginListenerList;
 		bool onContactBegin(cocos2d::PhysicsContact& contact);

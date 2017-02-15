@@ -17,7 +17,7 @@ namespace MyGame
 
 		virtual bool init() override;
 		virtual void update(float delta) override;
-
+		void ScoreIncreate(int value);
 
 		InGameScene::~InGameScene();
 	private:
@@ -28,10 +28,12 @@ namespace MyGame
 		cocos2d::Layer* cacheObstacleLayer;
 		cocos2d::Layer* cacheBackgroundLayer;
 		cocos2d::Layer* cacheMapLayer;
-
-
 		Role* cacheRole;
 		Map* cacheMap;
+		cocos2d::Label* score;
+		cocos2d::ui::Widget* m_jumpWidget;
+		int m_score;
+
 
 		std::vector<TouchBeganCallback> m_TouchBeganCallbackList;
 
@@ -39,7 +41,6 @@ namespace MyGame
 		void roleLayerInit();
 		void mapLayerInit();
 
-		void returnTitleScene();
 
 		//// implement the create() method manually
 		CREATE_FUNC(InGameScene);

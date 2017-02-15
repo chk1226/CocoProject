@@ -11,6 +11,7 @@ namespace MyFramework
 {
 
 	std::string Convert(float num);
+	std::string Convert(int num);
 	bool ToBool(std::string str);
 	float Lerp(float a, float b, float f);
 

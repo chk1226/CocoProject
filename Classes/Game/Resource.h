@@ -33,24 +33,29 @@ namespace MyGame
 		const char* ObstacleName = "doorOpen";
 		const char* ObstacleEndName = "doorOpen_top";
 		const char* PassName = "tileBlue_08";
-
+		const char* UIFieldBGName = "metalPanel.png";
+		const char* UIGreenButtonName = "squareGreen.png";
+		const char* UIRedButtonName = "squareRed.png";
 
 		const cocos2d::Color3B B_1c = cocos2d::Color3B(216, 191, 158);
 
 		struct SpriteFileName
 		{
 			std::string Square1x1;
-			std::string Option;
 			std::string Bird;
-			std::string Floor;
 		};
 
 		const SpriteFileName& GetSpriteName();
 		cocos2d::SpriteFrame* GetCharacterSpriteFrame(std::string filename);
 		cocos2d::SpriteFrame* GetCoreSpriteFrame(std::string filename);
 		cocos2d::SpriteFrame* GetBackgroundFrame(std::string filename);
+		cocos2d::SpriteFrame* GetUIFrame(std::string filename);
 		const cocos2d::Color3B& GetBackgroundColor();
 
+
+		//font
+		cocos2d::TTFConfig PixelBlockConfig;
+		cocos2d::TTFConfig PixelFutureConfig;
 
 		~Resource();
 		static void Create();
@@ -59,6 +64,8 @@ namespace MyGame
 		cocos2d::SpriteFrameCache* const m_Character = cocos2d::SpriteFrameCache::getInstance();
 		cocos2d::SpriteFrameCache* const m_Core = cocos2d::SpriteFrameCache::getInstance();
 		cocos2d::SpriteFrameCache* const m_Background = cocos2d::SpriteFrameCache::getInstance();
+		cocos2d::SpriteFrameCache* const m_UI = cocos2d::SpriteFrameCache::getInstance();
+
 
 		SpriteFileName SpriteName;
 

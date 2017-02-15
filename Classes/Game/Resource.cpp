@@ -41,6 +41,16 @@ namespace MyGame
 		return spriteFrame;
 	}
 
+	cocos2d::SpriteFrame * Resource::GetUIFrame(std::string filename)
+	{
+		cocos2d::SpriteFrame* spriteFrame;
+		if (m_UI)
+		{
+			spriteFrame = m_UI->getSpriteFrameByName(filename);
+		}
+		return spriteFrame;
+	}
+
 	const cocos2d::Color3B & Resource::GetBackgroundColor()
 	{
 		switch (BackgroundSet)
@@ -83,11 +93,25 @@ namespace MyGame
 			m_Background->addSpriteFramesWithFile(plistStr);
 		}
 
+		if (m_UI)
+		{
+			std::string plistStr = "ui.plist";
+			m_UI->addSpriteFramesWithFile(plistStr);
+
+		}
+
 
 		// sprite file name
 		SpriteName.Square1x1 = "original1x1.png";
-		SpriteName.Option = "option.png";
 		SpriteName.Bird = "Frame-1.png";
-		SpriteName.Floor = "tileBlue_22.png";
+
+		// font setup
+		PixelBlockConfig.fontFilePath = "fonts/kenpixel_blocks.ttf";
+		PixelBlockConfig.fontSize = 70;
+
+		PixelFutureConfig.fontFilePath = "fonts/kenvector_future_thin.ttf";
+
+
+
 	}
 }

@@ -8,6 +8,11 @@ std::string MyFramework::Convert(float num)
 	return buff.str();
 }
 
+std::string MyFramework::Convert(int num)
+{
+	return std::to_string(num);
+}
+
 float MyFramework::Lerp(float a, float b, float f)
 {
 	return a + f *(b - a);

@@ -27,6 +27,8 @@ namespace MyGame
 		// sate init
 		m_state = State::Alive;
 
+		passFlowNum = "";
+
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		auto origin = Director::getInstance()->getVisibleOrigin();
 		this->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height/2));
@@ -51,7 +53,6 @@ namespace MyGame
 		contactListener->onContactBegin = CC_CALLBACK_1(Role::onContactBegin, this);
 		_eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
 		
-
 		// add movement component
 		cacheMovement = MovementComponent::create();
 		this->addComponent(cacheMovement);
@@ -115,11 +116,29 @@ namespace MyGame
 			(PassBitmask == a->getContactTestBitmask() && RoleBitmask == b->getContactTestBitmask()))
 		{
 			// pass
-			
-			//TODO...
+			std::string passName;
+			if (a->getContactTestBitmask() == PassBitmask)
+			{
+				passName = a->getOwner()->getName();
+			}
+			else
+			{
+				passName = b->getOwner()->getName();
+			}
 
-			MyLog("OBSTACLE COLLISION HAS OCCURED");
-			return true;
+			if (passFlowNum.compare(passName) != 0)
+			{
+				if (ScoreIncreateCallback)
+				{
+					ScoreIncreateCallback(1);
+				}
+
+				passFlowNum = passName;
+				MyLog("*Pass COLLISION HAS OCCURED*");
+				return false;
+			}
+
+
 		}
 
 		return false;

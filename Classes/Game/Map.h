@@ -49,6 +49,7 @@ namespace MyGame
 		cocos2d::Sprite* m_Pass;
 		std::vector<cocos2d::Node*> m_PassList;
 
+		int passFlowNumber;
 		int appearDistance;
 		State m_state;
 
