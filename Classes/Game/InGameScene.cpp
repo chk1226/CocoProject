@@ -17,7 +17,10 @@ namespace MyGame
 		}
 
 		scene->getPhysicsWorld()->setGravity(Vec2::ZERO);
+
+#ifdef MYGAME_DEBUG
 		scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+#endif // mygame
 		
 		auto layer = InGameScene::create();
 		scene->addChild(layer);
@@ -156,6 +159,14 @@ namespace MyGame
 		cacheMap->CacheBackgroundLayer = cacheBackgroundLayer;
 		cacheMap->CacheTerrainLayer = cacheTerrainLayer;
 		cacheMap->CacheObstacleLayer = cacheObstacleLayer;
+		
+		//rand map
+		auto r = ResourceInstance;
+		r->BackgroundSet = static_cast<Resource::EBackgroundSet>(RandomHelper::random_int<int>(1, static_cast<int>(Resource::EBackgroundSet::All) - 1));
+		r->TerrainSet = static_cast<Resource::ETerrainSet>(RandomHelper::random_int<int>(0, static_cast<int>( Resource::ETerrainSet::All) - 1));
+		r->ObstacleSet = static_cast<Resource::EObstacleSet>(RandomHelper::random_int<int>(0, static_cast<int>( Resource::EObstacleSet::All) - 1));
+
+
 		cacheMap->SetUp();
 	}
 

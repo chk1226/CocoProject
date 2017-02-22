@@ -7,9 +7,20 @@ namespace MyGame
 
 	USING_NS_CC;
 
-	TitleScene* TitleScene::CreateScene()
+	Scene* TitleScene::CreateScene()
 	{
-		auto scene = TitleScene::create();
+
+		auto scene = Scene::createWithPhysics();
+		if (!scene)
+		{
+			return nullptr;
+		}
+
+		scene->getPhysicsWorld()->setGravity(Vec2::ZERO);
+
+		auto layer = TitleScene::create();
+		scene->addChild(layer);
+
 
 		return scene;
 	}
@@ -17,106 +28,91 @@ namespace MyGame
 	bool TitleScene::init()
 	{
 		// base init
-		if (!Scene::init())
+		if (!Layer::init())
 		{
 			return false;
 		}
 
 		// initial layer
-		cacheMiddleLayer = Layer::create();
-		this->addChild(cacheMiddleLayer);
+		cacheMapLayer = Layer::create();
+		this->addChild(cacheMapLayer);
+		cacheBackgroundLayer = Layer::create();
+		this->addChild(cacheBackgroundLayer);
+		cacheObstacleLayer = Layer::create();
+		this->addChild(cacheObstacleLayer);
+		cacheTerrainLayer = Layer::create();
+		this->addChild(cacheTerrainLayer);
+		cacheGUILayer = Layer::create();
+		this->addChild(cacheGUILayer);
 
-		startButtonInit();
-
-
-		///////////////////////////////
-		//// 3. add your codes below...
-
-		//// add a label shows "Hello World"
-		//// create and initialize a label
-
-		//auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-
-		//// position the label on the center of the screen
-		//label->setPosition(Vec2(origin.x + visibleSize.width / 2,
-		//	origin.y + visibleSize.height - label->getContentSize().height));
-
-		//// add the label as a child to this layer
-		//this->addChild(label, 1);
+		mapLayerInit();
+		menuSetup();
 
 
 		return true;
 	}
 
+	TitleScene::~TitleScene()
+	{
+		if (m_listener)
+		{
+			Director::getInstance()->getEventDispatcher()->removeEventListener(m_listener);
+		}
+	}
 
-	void TitleScene::startButtonInit()
+
+	void TitleScene::menuSetup()
 	{
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-		auto spriteName = ResourceInstance->GetSpriteName();
+		// title button
+		auto buttonSize = Size(180, 80);
 
-		auto node = Node::create();
-		node->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 5));
+		m_startButton = ui::Scale9Sprite::createWithSpriteFrame(ResourceInstance->GetUIFrame(ResourceInstance->UIGreenButtonName));
+		m_startButton->setCapInsets(Rect(5, 5, 9, 16));
+		m_startButton->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height / 2 - 100));
+		m_startButton->setContentSize(buttonSize);
+		cacheGUILayer->addChild(m_startButton);
 
-		auto sprite = Sprite::create(spriteName.Square1x1);
-		sprite->setTextureRect(Rect(0, 0, 160, 90));
-
-		auto startButton = ui::Button::create();
-		startButton->setTitleText("Start");
-		startButton->setTitleFontSize(52);
-		startButton->setTitleColor(Color3B::BLACK);
-		startButton->addTouchEventListener([&](Ref* sender, ui::Widget::TouchEventType type) {
-			ui::Button* button = dynamic_cast<ui::Button*>(sender);
-			if (button == nullptr || button->getParent() == nullptr)
-			{
-				return;
-			}
-			auto bg = dynamic_cast<Sprite*>(button->getParent()->getChildByName("bg"));;
-
-			switch (type)
-			{
-			case cocos2d::ui::Widget::TouchEventType::BEGAN:
-				if (bg)
-				{
-					bg->setColor(Color3B::GRAY);
-				}
-				break;
-			case cocos2d::ui::Widget::TouchEventType::MOVED:
-				break;
-			case cocos2d::ui::Widget::TouchEventType::ENDED:
-				if (bg)
-				{
-					bg->setColor(Color3B::WHITE);
-				}
-
-				onStartGame();
-				break;
-			case cocos2d::ui::Widget::TouchEventType::CANCELED:
-				if (bg)
-				{
-					bg->setColor(Color3B::WHITE);
-				}
-
-				break;
-			default:
-				break;
-			}
-
-		});
-
-		node->addChild(sprite, 0, "bg");
-		node->addChild(startButton);
-
-
-
-		if (cacheMiddleLayer != nullptr)
+		m_listener = EventListenerTouchOneByOne::create();
+		m_listener->setSwallowTouches(true);
+		m_listener->onTouchBegan = [&](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
-			cacheMiddleLayer->addChild(node);
+			Vec2 p = touch->getLocation();
+			cocos2d::Rect rect = m_startButton->getBoundingBox();
 
-		}
-	
-	
+			if (m_startButton->getParent())
+			{
+				auto w_origin = m_startButton->getParent()->convertToWorldSpace(rect.origin);
+				rect.origin = w_origin;
+			}
+
+
+			if (rect.containsPoint(p))
+			{
+				return true; // to indicate that we have consumed it.
+			}
+
+			return false; // we did not consume this event, pass thru.
+		};
+
+		m_listener->onTouchEnded = [=](cocos2d::Touch* touch, cocos2d::Event* event)
+		{
+			// start game
+			onStartGame();
+
+		};
+
+		Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_listener, 30);
+
+		auto fontConfig = ResourceInstance->PixelFutureConfig;
+		fontConfig.fontSize = 28;
+		auto label = Label::createWithTTF(fontConfig, "Start");
+		label->setTextColor(Color4B::BLACK);
+		label->setPosition(buttonSize.width / 2, buttonSize.height / 2);
+		m_startButton->addChild(label);
+
 	}
 
 	void TitleScene::onStartGame()
@@ -125,6 +121,18 @@ namespace MyGame
 		auto director = Director::getInstance();
 		director->replaceScene(inGameScene);
 
+	}
+
+	void TitleScene::mapLayerInit()
+	{
+		cacheMap = Map::CreateMap();
+		cacheMapLayer->addChild(cacheMap);
+		cacheMap->CacheBackgroundLayer = cacheBackgroundLayer;
+		cacheMap->CacheTerrainLayer = cacheTerrainLayer;
+		cacheMap->CacheObstacleLayer = cacheObstacleLayer;
+
+		cacheMap->SetUp();
+		cacheMap->ObstacleEnable = false;
 	}
 
 

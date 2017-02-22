@@ -10,7 +10,9 @@ std::string MyFramework::Convert(float num)
 
 std::string MyFramework::Convert(int num)
 {
-	return std::to_string(num);
+	std::ostringstream ss;
+	ss << num;
+	return ss.str();
 }
 
 float MyFramework::Lerp(float a, float b, float f)

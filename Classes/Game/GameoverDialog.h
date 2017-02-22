@@ -18,6 +18,7 @@ namespace MyGame
 	private:
 		cocos2d::EventListenerTouchOneByOne* m_listener;
 		cocos2d::ui::Scale9Sprite* m_titleButton;
+		void checkSaveData(int current, int old);
 
 		void returnTitleScene();
 

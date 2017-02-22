@@ -18,40 +18,61 @@ namespace MyGame
 	{
 	public:
 
-		enum EBackgroundSet
+		// c++ 11
+		enum class EBackgroundSet
 		{
 			B_1 = 1,
 			B_2,
 			B_3,
-			B_4
-		}BackgroundSet = B_1;
+			B_4,
+			All
+		}BackgroundSet = EBackgroundSet::B_1;
 
+		enum class ETerrainSet
+		{
+			Green,
+			Yellow,
+			Blue,
+			All
+		}TerrainSet = ETerrainSet::Green;
+		
+
+		enum class EObstacleSet
+		{
+			Open,
+			Red,
+			Green,
+			All
+		}ObstacleSet = EObstacleSet::Open;
 
 		const char* FloorBlueTMX = "tiled/floor_blue.tmx";
 		const char* BackgroundSetHill = "set%d_hills.png";
 		const char* BackgroundSetTiles = "set%d_tiles.png";
-		const char* ObstacleName = "doorOpen";
-		const char* ObstacleEndName = "doorOpen_top";
+		const char* ObstacleName = "door%s";
+		const char* ObstacleEndName = "door%s_top";
 		const char* PassName = "tileBlue_08";
+		const char* BirdSpriteName = "frame-%d.png";
 		const char* UIFieldBGName = "metalPanel.png";
 		const char* UIGreenButtonName = "squareGreen.png";
 		const char* UIRedButtonName = "squareRed.png";
+		const char* DataFileName = "save";
+
 
 		const cocos2d::Color3B B_1c = cocos2d::Color3B(216, 191, 158);
+		const cocos2d::Color3B B_2c = cocos2d::Color3B(84, 68, 123);
+		const cocos2d::Color3B B_3c = cocos2d::Color3B(255, 239, 189);
+		const cocos2d::Color3B B_4c = cocos2d::Color3B(142, 110, 83);
 
-		struct SpriteFileName
-		{
-			std::string Square1x1;
-			std::string Bird;
-		};
-
-		const SpriteFileName& GetSpriteName();
-		cocos2d::SpriteFrame* GetCharacterSpriteFrame(std::string filename);
+		cocos2d::SpriteFrame* GetCharacterSpriteFrame(int id);
 		cocos2d::SpriteFrame* GetCoreSpriteFrame(std::string filename);
 		cocos2d::SpriteFrame* GetBackgroundFrame(std::string filename);
 		cocos2d::SpriteFrame* GetUIFrame(std::string filename);
+		
+		std::string GetTerrainSetName();
+		std::string GetObstacleSetName();
 		const cocos2d::Color3B& GetBackgroundColor();
-
+		void SaveFile(std::string data);
+		std::string LoadFile();
 
 		//font
 		cocos2d::TTFConfig PixelBlockConfig;
@@ -65,11 +86,6 @@ namespace MyGame
 		cocos2d::SpriteFrameCache* const m_Core = cocos2d::SpriteFrameCache::getInstance();
 		cocos2d::SpriteFrameCache* const m_Background = cocos2d::SpriteFrameCache::getInstance();
 		cocos2d::SpriteFrameCache* const m_UI = cocos2d::SpriteFrameCache::getInstance();
-
-
-		SpriteFileName SpriteName;
-
-
 		Resource();
 	};
 

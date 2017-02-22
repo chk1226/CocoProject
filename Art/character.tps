@@ -172,10 +172,10 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>Flappy grumpy bird game character/PNG/Frame-1.png</filename>
             <filename>Flappy grumpy bird game character/PNG/frame-2.png</filename>
             <filename>Flappy grumpy bird game character/PNG/frame-3.png</filename>
             <filename>Flappy grumpy bird game character/PNG/frame-4.png</filename>
+            <filename>Flappy grumpy bird game character/PNG/frame-1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

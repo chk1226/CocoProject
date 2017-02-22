@@ -1,7 +1,7 @@
 #include "AppDelegate.h"
+#include "Game\Logger.h"
 #include "Game\TitleScene.h"
 #include "Game\Resource.h"
-#include "Game\Logger.h"
 
 USING_NS_CC;
 
@@ -49,7 +49,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
     }
 
     // turn on display FPS
+#ifdef MYGAME_DEBUG
     director->setDisplayStats(true);
+
+#endif // MYGAME_DEBUG
+
 
     // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(1.0f / 60);
@@ -73,7 +77,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	setup();
 
     // create a scene. it's an autorelease object
-    auto scene = MyGame::InGameScene::CreateScene();
+    auto scene = MyGame::TitleScene::CreateScene();
 
     // run
     director->runWithScene(scene);

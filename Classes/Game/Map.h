@@ -33,6 +33,7 @@ namespace MyGame
 		cocos2d::Layer* CacheTerrainLayer;
 		cocos2d::Layer* CacheObstacleLayer;
 		cocos2d::Layer* CacheBackgroundLayer;
+		bool ObstacleEnable;
 
 
 	private:

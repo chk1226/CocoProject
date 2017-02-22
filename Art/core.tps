@@ -173,14 +173,18 @@
         <key>fileList</key>
         <array>
             <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_03.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_04.png</filename>
             <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_05.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_06.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_07.png</filename>
             <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_08.png</filename>
-            <filename>abstract-platformer-370-assets/PNG/Tiles/Blue tiles/tileBlue_17.png</filename>
             <filename>abstract-platformer-370-assets/PNG/Other/doorOpen.png</filename>
             <filename>abstract-platformer-370-assets/PNG/Other/doorOpen_top.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Tiles/rename/tileGreen_03.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Tiles/rename/tileGreen_05.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Tiles/rename/tileYellow_03.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Tiles/rename/tileYellow_05.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Other/doorRed_top.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Other/doorRed.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Other/doorGreen.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Other/doorGreen_top.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

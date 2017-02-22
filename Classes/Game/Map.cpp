@@ -79,7 +79,10 @@ namespace MyGame
 		{
 			terrainMove(delta);
 			backgroundMove(delta);
-			obstacleMove(delta);
+			if (ObstacleEnable)
+			{
+				obstacleMove(delta);
+			}
 
 		}
 
@@ -89,9 +92,11 @@ namespace MyGame
 	{
 		// state setup
 		m_state = State::Run;
+		ObstacleEnable = true;
 
 		auto visibleSize = Director::getInstance()->getVisibleSize();
 		auto origin = Director::getInstance()->getVisibleOrigin();
+		char buff[50];
 
 		floorTmx = new TMXLoader();
 		floorTmx->loadMap("floor", ResourceInstance->FloorBlueTMX);
@@ -107,20 +112,21 @@ namespace MyGame
 				
 				// get the tile at current position
 				auto tileID = map->getTileLayer("layer_1")->getTileVector()[i][j];
-				MyLog("tileID %d", tileID);
+				//MyLog("tileID %d", tileID);
 				
 				// only render if it is an actual tile (tileID = 0 means no tile / don't render anything here)
 				if (tileID > 0)
 				{
 					auto tileSet = map->getTileSet("core");
-					MyLog("getTileCount %d, getLastGID %d", tileSet->getTileCount(), tileSet->getLastGID());
+					//MyLog("getTileCount %d, getLastGID %d", tileSet->getTileCount(), tileSet->getLastGID());
 
 					auto terrain = tileSet->getTile(tileID - 1);
 					if (terrain)
 					{
 						auto tileName = terrain->getProperty("tile_name");
+						snprintf(buff, sizeof(buff), tileName.c_str(), ResourceInstance->GetTerrainSetName().c_str());
 						auto collision = MyFramework::ToBool(terrain->getProperty("collision"));
-						auto image = Sprite::createWithSpriteFrame(ResourceInstance->GetCoreSpriteFrame(tileName));
+						auto image = Sprite::createWithSpriteFrame(ResourceInstance->GetCoreSpriteFrame(buff));
 						if (image)
 						{
 							auto size = image->getContentSize();
@@ -160,7 +166,7 @@ namespace MyGame
 		}
 
 		auto size = terrainGroup->getContentSize();
-		MyLog("groupW %f, groupH %f", size.width, size.height);
+		//MyLog("groupW %f, groupH %f", size.width, size.height);
 		terrainGroup->setPositionY(size.height);
 
 		m_TerrainGroup.push_back(terrainGroup);
@@ -179,20 +185,22 @@ namespace MyGame
 		// obstacle set up
 		{
 			auto r = ResourceInstance;
-			m_Obstacle = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(r->ObstacleName));
-			m_Obstacle->retain();
+			snprintf(buff, sizeof(buff), r->ObstacleName, r->GetObstacleSetName().c_str());
+			m_Obstacle = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(buff));
 			if (m_Obstacle)
 			{
+				m_Obstacle->retain();
 				auto physicsBody = PhysicsBody::createBox(m_Obstacle->getContentSize(), PhysicsMaterial(0, 0, 0));
 				physicsBody->setContactTestBitmask(ObstacleBitmask);
 				physicsBody->setDynamic(false);
 				m_Obstacle->setPhysicsBody(physicsBody);
 			}
 
-			m_ObstacleEnd = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(r->ObstacleEndName));
-			m_ObstacleEnd->retain();
+			snprintf(buff, sizeof(buff), r->ObstacleEndName, r->GetObstacleSetName().c_str());
+			m_ObstacleEnd = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(buff));
 			if (m_ObstacleEnd)
 			{
+				m_ObstacleEnd->retain();
 				auto physicsBody = PhysicsBody::createBox(m_ObstacleEnd->getContentSize(), PhysicsMaterial(0, 0, 0));
 				physicsBody->setContactTestBitmask(ObstacleBitmask);
 				physicsBody->setDynamic(false);
@@ -201,9 +209,9 @@ namespace MyGame
 			
 			passFlowNumber = 0;
 			m_Pass = Sprite::createWithSpriteFrame(r->GetCoreSpriteFrame(r->PassName));
-			m_Pass->retain();
 			if (m_Pass)
 			{
+				m_Pass->retain();
 				auto physicsBody = PhysicsBody::createBox(m_Pass->getContentSize(), PhysicsMaterial(0, 0, 0));
 				physicsBody->setContactTestBitmask(PassBitmask);
 				physicsBody->setDynamic(false);
@@ -223,13 +231,12 @@ namespace MyGame
 		image->setPosition(origin + visibleSize / 2);
 		CacheBackgroundLayer->addChild(image);
 
-		char buff[100];
 		auto offset = origin + visibleSize / 2;
 
 		for (int i = 0; i < 3; i++)
 		{
 			// tiles
-			snprintf(buff, sizeof(buff), ResourceInstance->BackgroundSetTiles, ResourceInstance->BackgroundSet);
+			snprintf(buff, sizeof(buff), ResourceInstance->BackgroundSetTiles, static_cast<int>(ResourceInstance->BackgroundSet));
 			auto bkImage = Sprite::createWithSpriteFrame(ResourceInstance->GetBackgroundFrame(buff));
 			if (bkImage)
 			{
@@ -240,7 +247,7 @@ namespace MyGame
 			}
 
 			// hill
-			snprintf(buff, sizeof(buff), ResourceInstance->BackgroundSetHill, ResourceInstance->BackgroundSet);
+			snprintf(buff, sizeof(buff), ResourceInstance->BackgroundSetHill, static_cast<int>(ResourceInstance->BackgroundSet));
 			bkImage = Sprite::createWithSpriteFrame(ResourceInstance->GetBackgroundFrame(buff));
 			if (bkImage)
 			{
@@ -271,7 +278,7 @@ namespace MyGame
 				: localPos;
 			if (worldPos.x < 0)
 			{
-				MyLog("worldPosW %f, worldPosH %f", worldPos.x, worldPos.y);
+				//MyLog("worldPosW %f, worldPosH %f", worldPos.x, worldPos.y);
 				m_TerrainGroup.erase(m_TerrainGroup.begin() + i);
 				m_RegTerrainGroup.push_back(node);
 				continue;

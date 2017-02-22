@@ -3,6 +3,7 @@
 #include "Framework\Utility.h"
 #include "ui\CocosGUI.h"
 #include "Game\Logger.h"
+#include "Framework\Utility.h"
 
 namespace MyGame
 {
@@ -51,6 +52,36 @@ namespace MyGame
 		image->setContentSize(Size(350, 250));
 		this->addChild(image);
 
+		fontConfig = ResourceInstance->PixelBlockConfig;
+		fontConfig.fontSize = 28;
+		label = Label::createWithTTF(fontConfig, MyFramework::Convert(score));	//current sorce
+		label->setAnchorPoint(Vec2::ZERO);
+		label->setPosition(40, 150);
+		image->addChild(label);
+
+		auto bestScore = ResourceInstance->LoadFile();
+		label = Label::createWithTTF(fontConfig, bestScore);	//best sorce
+		label->setAnchorPoint(Vec2::ZERO);
+		label->setPosition(40, 50);
+		image->addChild(label);
+
+		fontConfig = ResourceInstance->PixelFutureConfig;
+		fontConfig.fontSize = 28;
+		label = Label::createWithTTF(fontConfig, "Score");
+		label->setAnchorPoint(Vec2::ZERO);
+		label->setTextColor(Color4B::BLACK);
+		label->setPosition(20, 200);
+		image->addChild(label);
+
+		label = Label::createWithTTF(fontConfig, "Best");
+		label->setAnchorPoint(Vec2::ZERO);
+		label->setTextColor(Color4B::BLACK);
+		label->setPosition(20, 100);
+		image->addChild(label);
+
+		//save data
+		checkSaveData(score, std::atoi(bestScore.c_str()));
+
 		// title button
 		auto buttonSize = Size(150, 50);
 
@@ -81,7 +112,7 @@ namespace MyGame
 
 		m_listener->onTouchEnded = [=](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
-			MyLog("ccccccc");
+			//MyLog("ccccccc");
 
 			returnTitleScene();
 
@@ -95,6 +126,16 @@ namespace MyGame
 		label->setPosition(buttonSize.width/2, buttonSize.height/2);
 		m_titleButton->addChild(label);
 		
+	}
+
+
+	void GameoverDialog::checkSaveData(int current, int old)
+	{
+		if (current > old)
+		{
+			ResourceInstance->SaveFile(MyFramework::Convert(current));
+		}
+
 	}
 
 	void GameoverDialog::returnTitleScene()

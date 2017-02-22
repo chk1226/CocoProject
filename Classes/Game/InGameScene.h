@@ -19,7 +19,7 @@ namespace MyGame
 		virtual void update(float delta) override;
 		void ScoreIncreate(int value);
 
-		InGameScene::~InGameScene();
+		~InGameScene();
 	private:
 
 		cocos2d::Layer* cacheRoleLayer;

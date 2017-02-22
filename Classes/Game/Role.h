@@ -40,6 +40,7 @@ namespace MyGame
 		MyGame::RotateNodeComponent* cacheRotateNode;
 		State m_state;
 		std::string passFlowNum;
+		cocos2d::Sprite* roleSprite;
 
 		std::vector<std::function<void()>> m_TouchBeginListenerList;
 		bool onContactBegin(cocos2d::PhysicsContact& contact);

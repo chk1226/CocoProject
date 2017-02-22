@@ -35,18 +35,31 @@ namespace MyGame
 
 
 		// add sprite
-		auto spriteName = ResourceInstance->GetSpriteName();
-		auto image = Sprite::createWithSpriteFrame(ResourceInstance->GetCharacterSpriteFrame(spriteName.Bird));
-		float scaleValue = 0.25f;
-		image->setScale(scaleValue);
+		Vector<SpriteFrame*> animFrame(4);
+		for (int i = 0; i < 4; i++)
+		{
+			auto frame = ResourceInstance->GetCharacterSpriteFrame(i + 1);
+			if (frame)
+			{
+				animFrame.pushBack(frame);
+			}
+		}
 
-		auto physicsBody = PhysicsBody::createBox(image->getContentSize(), PhysicsMaterial(0, 0, 0));
+		auto animation = Animation::createWithSpriteFrames(animFrame, 0.1f);
+		auto animate = Animate::create(animation);
+		
+		roleSprite = Sprite::createWithSpriteFrame(ResourceInstance->GetCharacterSpriteFrame(1));
+		float scaleValue = 0.25f;
+		roleSprite->setScale(scaleValue);
+		roleSprite->runAction(RepeatForever::create(animate));
+
+		auto physicsBody = PhysicsBody::createBox(roleSprite->getContentSize(), PhysicsMaterial(0, 0, 0));
 		physicsBody->setContactTestBitmask(RoleBitmask);
 		physicsBody->setDynamic(true);
 		
-		image->setPhysicsBody(physicsBody);
+		roleSprite->setPhysicsBody(physicsBody);
 
-		this->addChild(image, 0, RoleSpriteName);
+		this->addChild(roleSprite, 0, RoleSpriteName);
 
 		//add contact event listener
 		auto contactListener = EventListenerPhysicsContact::create();
@@ -156,6 +169,10 @@ namespace MyGame
 			cacheRotateNode->setEnabled(false);
 		}
 
+		if (roleSprite)
+		{
+			roleSprite->stopAllActions();
+		}
 		m_state = State::Fail;
 	}
 

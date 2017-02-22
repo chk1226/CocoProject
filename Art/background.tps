@@ -174,6 +174,12 @@
         <array>
             <filename>abstract-platformer-370-assets/PNG/Backgrounds/set1_hills.png</filename>
             <filename>abstract-platformer-370-assets/PNG/Backgrounds/set1_tiles.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set2_hills.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set2_tiles.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set3_tiles.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set3_hills.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set4_tiles.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Backgrounds/set4_hills.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
