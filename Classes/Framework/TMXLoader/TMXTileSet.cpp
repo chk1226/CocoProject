@@ -18,27 +18,27 @@
 //
 
 #include "TMXTileSet.h"
-
+#include "Framework\Utility.h"
 
 TMXTileSet::TMXTileSet(std::unordered_map<std::string, std::string>& tileSetData, std::unordered_map<std::string, std::string>& propertiesMap, std::vector<TMXTile>& tileVector) : m_propertiesMap(propertiesMap),
 	m_tileVector(tileVector)	
 {
 	m_name = tileSetData["name"];
 	m_source = tileSetData["source"];
-	m_firstGID = atoi(tileSetData["firstgid"].c_str());
-	m_imageWidth = atoi(tileSetData["width"].c_str());
-	m_imageHeight = atoi(tileSetData["height"].c_str());
-	m_tileWidth = atoi(tileSetData["tilewidth"].c_str());
-	m_tileHeight = atoi(tileSetData["tileheight"].c_str());
-	m_offsetX = atoi(tileSetData["tileoffsetX"].c_str());
-	m_offsetY = atoi(tileSetData["tileoffsetY"].c_str());
-	m_spacing = atoi(tileSetData["spacing"].c_str());
-	m_margin = atoi(tileSetData["margin"].c_str());
-    m_tileCount = atoi(tileSetData["tilecount"].c_str());
+	m_firstGID = MyFramework::atoi(tileSetData["firstgid"].c_str());
+	m_imageWidth = MyFramework::atoi(tileSetData["width"].c_str());
+	m_imageHeight = MyFramework::atoi(tileSetData["height"].c_str());
+	m_tileWidth = MyFramework::atoi(tileSetData["tilewidth"].c_str());
+	m_tileHeight = MyFramework::atoi(tileSetData["tileheight"].c_str());
+	m_offsetX = MyFramework::atoi(tileSetData["tileoffsetX"].c_str());
+	m_offsetY = MyFramework::atoi(tileSetData["tileoffsetY"].c_str());
+	m_spacing = MyFramework::atoi(tileSetData["spacing"].c_str());
+	m_margin = MyFramework::atoi(tileSetData["margin"].c_str());
+    m_tileCount = MyFramework::atoi(tileSetData["tilecount"].c_str());
     
-    m_transparentColourArray[0] = atoi(tileSetData["red"].c_str());
-    m_transparentColourArray[1] = atoi(tileSetData["green"].c_str());
-    m_transparentColourArray[2] = atoi(tileSetData["blue"].c_str());
+    m_transparentColourArray[0] = MyFramework::atoi(tileSetData["red"].c_str());
+    m_transparentColourArray[1] = MyFramework::atoi(tileSetData["green"].c_str());
+    m_transparentColourArray[2] = MyFramework::atoi(tileSetData["blue"].c_str());
 }
 
 

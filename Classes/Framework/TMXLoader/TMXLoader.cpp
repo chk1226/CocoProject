@@ -18,6 +18,10 @@
 //
 
 #include "TMXLoader.h"
+#include "Framework\Utility.h"
+#include "Game\Logger.h"
+#include "cocos2d.h"
+
 
 
 TMXLoader::TMXLoader()
@@ -55,11 +59,11 @@ void TMXLoader::loadMap(std::string mapName, std::string filePath)
         loadTileSets(m_mapContainer[mapName], parentNode);
         loadLayers(m_mapContainer[mapName], parentNode);
         
-        std::cout << "TMXLoader: loaded map '" << mapName << "' from: '" << filePath << "' successfully" << std::endl;
+		MyLog("[TMXLoader] loaded map %s from %s successfully.", mapName.c_str(), filePath.c_str());  
     }
     else
     {
-        std::cout << "TMXLoader: map '" << mapName << "' at '" << filePath << "' could not be loaded." << std::endl;
+		MyLog("[TMXLoader] loaded map %s from %s could not be loaded.", mapName.c_str(), filePath.c_str());
     }
 }
 
@@ -72,7 +76,8 @@ TMXMap* TMXLoader::getMap(std::string mapName)
     
     if (iterator == m_mapContainer.end())
     {
-        std::cout << "TMXLoader: map '" << mapName << "' not found." << std::endl;
+		MyLog("[TMXLoader] map %s not found.", mapName.c_str());
+
     }
     else
     {
@@ -115,11 +120,11 @@ void TMXLoader::loadMapSettings(std::unique_ptr<TMXMap> const &map, rapidxml::xm
 	std::string colourString = mapData[6];
 	std::string colourSubstring = colourString.substr(1, colourString.length());
 
-	unsigned int colour = stoi(colourSubstring, 0, 16);
+	unsigned int colour = MyFramework::atoi_16(colourSubstring);
 
-	mapData.push_back(std::to_string(colour / 0x10000));
-	mapData.push_back(std::to_string((colour / 0x100) % 0x100));
-	mapData.push_back(std::to_string(colour / 0x10000));
+	mapData.push_back(MyFramework::Convert(colour / 0x10000));
+	mapData.push_back(MyFramework::Convert((colour / 0x100) % 0x100));
+	mapData.push_back(MyFramework::Convert(colour / 0x10000));
 
 	std::unordered_map<std::string, std::string> propertiesMap;
 
@@ -181,12 +186,12 @@ void TMXLoader::loadTileSets(std::unique_ptr<TMXMap> const &map, rapidxml::xml_n
 			{
 				if (strcmp(attr->name(), "trans") == 0)
 				{
-					unsigned int colour = std::stoi(attr->value(), 0, 16);
+					unsigned int colour = MyFramework::atoi_16(attr->value());
                     
                     // Convert from hex to RGB
-					tileSetData["red"] = std::to_string(colour / 0x10000);
-					tileSetData["green"] = std::to_string((colour / 0x100) % 0x100);
-					tileSetData["blue"] = std::to_string(colour / 0x10000);
+					tileSetData["red"] = MyFramework::Convert(colour / 0x10000);
+					tileSetData["green"] = MyFramework::Convert((colour / 0x100) % 0x100);
+					tileSetData["blue"] = MyFramework::Convert(colour / 0x10000);
 				}
 				else
 				{
@@ -199,7 +204,7 @@ void TMXLoader::loadTileSets(std::unique_ptr<TMXMap> const &map, rapidxml::xml_n
 			rapidxml::xml_node<> *tileNode = currentNode->parent()->first_node("tile");
 			while (tileNode != nullptr)
 			{
-				unsigned int tileID = atoi(tileNode->first_attribute()->value());
+				unsigned int tileID = MyFramework::atoi(tileNode->first_attribute()->value());
 				loadProperties(tileProperties, tileNode);
 				tileVector.push_back(TMXTile(tileID, tileProperties));
 
@@ -261,8 +266,8 @@ void TMXLoader::loadLayers(std::unique_ptr<TMXMap> const &map, rapidxml::xml_nod
 		}
         
         layerName = layerVector[0];
-        layerWidth = atoi(layerVector[1]);
-        layerHeight = atoi(layerVector[2]);
+        layerWidth = MyFramework::atoi(layerVector[1]);
+        layerHeight = MyFramework::atoi(layerVector[2]);
 
 		// Load any properties for the layer
 		loadProperties(layerProperties, currentNode);
@@ -283,7 +288,7 @@ void TMXLoader::loadLayers(std::unique_ptr<TMXMap> const &map, rapidxml::xml_nod
             if (currentTile < layerWidth)
             {
                 // Add tile to vector, must be cast from char* to unsigned int
-                tileVector[currentRow][currentTile] = (unsigned int)std::stoul(currentNode->first_attribute()->value());
+                tileVector[currentRow][currentTile] = (unsigned int)MyFramework::atoi(currentNode->first_attribute()->value());
                 
                 currentTile++;
                 
@@ -335,19 +340,31 @@ void TMXLoader::loadProperties(std::unordered_map<std::string, std::string>& pro
 
 bool TMXLoader::loadFile(std::string filePath, std::string &fileContents)
 {
-    std::ifstream file(filePath, std::ios::in | std::ios::binary);
+	auto fileUtils = cocos2d::FileUtils::getInstance();
+	if (fileUtils)
+	{
+		fileContents = fileUtils->getStringFromFile(filePath);
+	}
 
-    if (file)
-    {
-        file.seekg(0, std::ios::end);
-        fileContents.resize(file.tellg());
-        file.seekg(0, std::ios::beg);
-        file.read(&fileContents[0], fileContents.size());
-        file.close();
-        
-        return true;
-    }
-    return false;
+	if (fileContents == "")
+	{
+		return false;
+	}
+	return true;
+
+    //std::ifstream file(filePath, std::ios::in | std::ios::binary);
+
+    //if (file)
+    //{
+    //    file.seekg(0, std::ios::end);
+    //    fileContents.resize(file.tellg());
+    //    file.seekg(0, std::ios::beg);
+    //    file.read(&fileContents[0], fileContents.size());
+    //    file.close();
+    //    
+    //    return true;
+    //}
+    //return false;
 }
 
 

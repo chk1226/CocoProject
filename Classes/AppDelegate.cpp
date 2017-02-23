@@ -5,10 +5,9 @@
 
 USING_NS_CC;
 
+//static cocos2d::Size smallResolutionSize = cocos2d::Size(320, 480);
 static cocos2d::Size designResolutionSize = cocos2d::Size(750, 1134);
-//static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
-//static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
-//static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
+static cocos2d::Size largeResolutionSize = cocos2d::Size(1536, 2048);
 
 AppDelegate::AppDelegate()
 {
@@ -63,9 +62,27 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     auto frameSize = glview->getFrameSize();
 
+	if (frameSize.height >= largeResolutionSize.height)
+	{
+		director->setContentScaleFactor(MIN(frameSize.height / largeResolutionSize.height, frameSize.width / largeResolutionSize.width));
+	}
+	else
+	{
+		director->setContentScaleFactor(MIN(frameSize.height / designResolutionSize.height, frameSize.width / designResolutionSize.width));
+	}
+	//else if (frameSize.height > smallResolutionSize.height)
+	//{
+	//	director->setContentScaleFactor(frameSize.height / designResolutionSize.height);
+	//}
+	//else
+	//{
+	//	director->setContentScaleFactor(frameSize.height / smallResolutionSize.height);
+	//}
 	
-	director->setContentScaleFactor(MIN(frameSize.height/designResolutionSize.height, frameSize.width/designResolutionSize.width));
-	MyLog("frameSize : %f, %f", frameSize.width, frameSize.height);
+	//director->setContentScaleFactor(MIN(frameSize.height/designResolutionSize.height, frameSize.width/designResolutionSize.width));
+	//director->setContentScaleFactor(frameSize.height/designResolutionSize.height);
+
+	MyLog("frameSize : %f, %f, content scale factor : %f", frameSize.width, frameSize.height, director->getContentScaleFactor());
 	Vec2 origin = director->getVisibleOrigin();
 	MyLog("orign : %f, %f", origin.x, origin.y);
 	auto visibleSize = director->getVisibleSize();
@@ -75,6 +92,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 
 	setup();
+
 
     // create a scene. it's an autorelease object
     auto scene = MyGame::TitleScene::CreateScene();

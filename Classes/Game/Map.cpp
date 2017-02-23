@@ -99,74 +99,93 @@ namespace MyGame
 		char buff[50];
 
 		floorTmx = new TMXLoader();
-		floorTmx->loadMap("floor", ResourceInstance->FloorBlueTMX);
+
+		std::string fullPath;
+//#if CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
+//#else 
+		fullPath = ResourceInstance->FloorBlueTMX;
+//#endif 
+
+		floorTmx->loadMap("floor", fullPath);
 
 		auto map = floorTmx->getMap("floor");
 
+
 		// terrain
 		auto terrainGroup = Node::create();
-		for (int i = 0; i < map->getHeight(); ++i)
+		if (map)
 		{
-			for (int j = 0; j < map->getWidth(); ++j)
+
+			for (int i = 0; i < map->getHeight(); ++i)
 			{
-				
-				// get the tile at current position
-				auto tileID = map->getTileLayer("layer_1")->getTileVector()[i][j];
-				//MyLog("tileID %d", tileID);
-				
-				// only render if it is an actual tile (tileID = 0 means no tile / don't render anything here)
-				if (tileID > 0)
+				for (int j = 0; j < map->getWidth(); ++j)
 				{
-					auto tileSet = map->getTileSet("core");
-					//MyLog("getTileCount %d, getLastGID %d", tileSet->getTileCount(), tileSet->getLastGID());
-
-					auto terrain = tileSet->getTile(tileID - 1);
-					if (terrain)
+				
+					// get the tile at current position
+					auto tileID = map->getTileLayer("layer_1")->getTileVector()[i][j];
+					//MyLog("tileID %d", tileID);
+				
+					// only render if it is an actual tile (tileID = 0 means no tile / don't render anything here)
+					if (tileID > 0)
 					{
-						auto tileName = terrain->getProperty("tile_name");
-						snprintf(buff, sizeof(buff), tileName.c_str(), ResourceInstance->GetTerrainSetName().c_str());
-						auto collision = MyFramework::ToBool(terrain->getProperty("collision"));
-						auto image = Sprite::createWithSpriteFrame(ResourceInstance->GetCoreSpriteFrame(buff));
-						if (image)
+						auto tileSet = map->getTileSet("core");
+						//MyLog("getTileCount %d, getLastGID %d", tileSet->getTileCount(), tileSet->getLastGID());
+
+						auto terrain = tileSet->getTile(tileID - 1);
+						if (terrain)
 						{
-							auto size = image->getContentSize();
-							auto tileW = size.width - texOffset;
-							auto tileH = size.height - texOffset;
-							auto allW = tileW * j;
-							auto allH = tileH * i;
-							image->setAnchorPoint(Vec2(0, 1));
-							image->setPosition(allW, -allH);
-							
-							if (collision)
+							auto tileName = terrain->getProperty("tile_name");
+							snprintf(buff, sizeof(buff), tileName.c_str(), ResourceInstance->GetTerrainSetName().c_str());
+							auto m_property = terrain->getProperty("collision");
+							auto collision = MyFramework::ToBool(m_property);
+							auto image = Sprite::createWithSpriteFrame(ResourceInstance->GetCoreSpriteFrame(buff));
+							if (image)
 							{
-								auto physicsBody = PhysicsBody::createBox(image->getContentSize(), PhysicsMaterial(0, 0, 0));
-								physicsBody->setContactTestBitmask(TerrainBitmask);
-								physicsBody->setDynamic(false);
-								image->setPhysicsBody(physicsBody);
-							}
+								auto size = image->getContentSize();
+								auto tileW = size.width - texOffset;
+								auto tileH = size.height - texOffset;
+								auto allW = tileW * j;
+								auto allH = tileH * i;
+								image->setAnchorPoint(Vec2(0, 1));
+								image->setPosition(allW, -allH);
 
-							terrainGroup->addChild(image);
-							size = terrainGroup->getContentSize();
-							if (allW + tileW > size.width)
-							{
-								size.width = allW + tileW;
-							}
+								if (collision)
+								{
 
-							if (allH + tileH > size.height)
-							{
-								size.height = allH + tileH;
-							}
+									auto physicsBody = PhysicsBody::createBox(image->getContentSize(), PhysicsMaterial(0, 0, 0));
+									physicsBody->setContactTestBitmask(TerrainBitmask);
+									physicsBody->setDynamic(false);
+									image->setPhysicsBody(physicsBody);
+								}
 
-							terrainGroup->setContentSize(size);
+								terrainGroup->addChild(image);
+								size = terrainGroup->getContentSize();
+								if (allW + tileW > size.width)
+								{
+									size.width = allW + tileW;
+								}
 
-						}													
-					}				
+								if (allH + tileH > size.height)
+								{
+									size.height = allH + tileH;
+								}
+
+								terrainGroup->setContentSize(size);
+
+							}													
+						}				
+					}
 				}
 			}
 		}
+		else
+		{
+			MyLog("[error] ***getMap is null***");
+
+		}
 
 		auto size = terrainGroup->getContentSize();
-		//MyLog("groupW %f, groupH %f", size.width, size.height);
+		MyLog("terrainGroupW %f, terrainGroupH %f", size.width, size.height);
 		terrainGroup->setPositionY(size.height);
 
 		m_TerrainGroup.push_back(terrainGroup);
@@ -181,6 +200,8 @@ namespace MyGame
 			m_TerrainGroup.push_back(clone);
 			CacheTerrainLayer->addChild(clone);
 		}
+
+
 
 		// obstacle set up
 		{
@@ -463,7 +484,7 @@ namespace MyGame
 				clone->setPositionY(i* clone->getContentSize().height);
 				node->addChild(clone, 0, obstacleTag);
 			}
-			for (int i = startPass + passHeight + 1; i < 14; i++)
+			for (int i = startPass + passHeight + 1; i < 16; i++)
 			{
 				if (m_ObstacleList.size() == 0)
 				{

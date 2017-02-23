@@ -48,7 +48,6 @@ namespace MyGame
 		mapLayerInit();
 		menuSetup();
 
-
 		return true;
 	}
 

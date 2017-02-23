@@ -18,6 +18,7 @@
 //
 
 #include "TMXTile.h"
+#include "Game\Logger.h"
 
 
 TMXTile::TMXTile(unsigned int tileID, std::unordered_map<std::string, std::string>& propertiesMap) : m_tileID(tileID), m_propertiesMap(propertiesMap)
@@ -44,7 +45,7 @@ std::string TMXTile::getProperty(std::string propertyName)
     
     if (iterator == m_propertiesMap.end())
     {
-        std::cout << "TMXLoader: property '" << propertyName << "' not found." << std::endl;
+		MyLog("[TMXLoader] property %s not found.", propertyName.c_str());
     }
     else
     {

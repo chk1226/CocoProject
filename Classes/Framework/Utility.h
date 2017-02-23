@@ -6,12 +6,19 @@
 #include <stdarg.h>
 #include "cocos2d.h"
 
-
 namespace MyFramework 
 {
+	template<class T>
+	std::string Convert(T num)
+	{
+		std::ostringstream buff;
+		buff << num;
+		return buff.str();
+	}
+	
+	int atoi(const std::string& str);
+	int atoi_16(const std::string& str);
 
-	std::string Convert(float num);
-	std::string Convert(int num);
 	bool ToBool(std::string str);
 	float Lerp(float a, float b, float f);
 

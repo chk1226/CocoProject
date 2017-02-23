@@ -1,19 +1,6 @@
 #include "Framework\Utility.h"
-
-
-std::string MyFramework::Convert(float num)
-{
-	std::ostringstream buff;
-	buff << num;
-	return buff.str();
-}
-
-std::string MyFramework::Convert(int num)
-{
-	std::ostringstream ss;
-	ss << num;
-	return ss.str();
-}
+#include <sstream>
+#include <iostream>
 
 float MyFramework::Lerp(float a, float b, float f)
 {
@@ -87,14 +74,36 @@ cocos2d::Node * MyFramework::CloneSingleCCNode(cocos2d::Node* source)
 }
 
 
+int MyFramework::atoi(const std::string& str)
+{
+	int numb;
+	std::istringstream(str) >> numb;
+	return numb;
+}
+
+int MyFramework::atoi_16(const std::string & str)
+{
+	std::stringstream stream;
+	stream << str;
+	int value;
+	stream >> std::hex >> value;
+
+	return value;
+}
+
 bool MyFramework::ToBool(std::string str) {
+	
 	if (str.length() != 0)
 	{
-		std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-		std::istringstream is(str);
-		bool b;
-		is >> std::boolalpha >> b;
-		return b;
+		if (str.compare("bool") == 0)
+		{
+			return true;
+		}
+		//std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+		//std::istringstream is(str);
+		//bool b;
+		//is >> std::boolalpha >> b;
+		//return b;
 	}
 	
 	return false;

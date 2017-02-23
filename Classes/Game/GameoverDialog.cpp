@@ -3,7 +3,6 @@
 #include "Framework\Utility.h"
 #include "ui\CocosGUI.h"
 #include "Game\Logger.h"
-#include "Framework\Utility.h"
 
 namespace MyGame
 {
@@ -80,7 +79,7 @@ namespace MyGame
 		image->addChild(label);
 
 		//save data
-		checkSaveData(score, std::atoi(bestScore.c_str()));
+		checkSaveData(score, MyFramework::atoi(bestScore.c_str()));
 
 		// title button
 		auto buttonSize = Size(150, 50);
