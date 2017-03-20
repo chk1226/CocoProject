@@ -7,6 +7,32 @@
             <key>metalPanel.png</key>
             <dict>
                 <key>frame</key>
+                <string>{{2,104},{100,100}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{100,100}}</string>
+                <key>sourceSize</key>
+                <string>{100,100}</string>
+            </dict>
+            <key>metalPanel_plate.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{104,84},{80,80}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{80,80}}</string>
+                <key>sourceSize</key>
+                <string>{80,80}</string>
+            </dict>
+            <key>metalPanel_yellow.png</key>
+            <dict>
+                <key>frame</key>
                 <string>{{2,2},{100,100}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
@@ -20,7 +46,7 @@
             <key>squareGreen.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{104,30},{19,26}}</string>
+                <string>{{44,206},{19,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -33,7 +59,7 @@
             <key>squareRed.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{104,2},{19,26}}</string>
+                <string>{{23,206},{19,26}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -43,6 +69,32 @@
                 <key>sourceSize</key>
                 <string>{19,26}</string>
             </dict>
+            <key>squareYellow.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,206},{19,26}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{19,26}}</string>
+                <key>sourceSize</key>
+                <string>{19,26}</string>
+            </dict>
+            <key>transparentLight45.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{104,2},{80,80}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{80,80}}</string>
+                <key>sourceSize</key>
+                <string>{80,80}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -51,9 +103,9 @@
             <key>realTextureFileName</key>
             <string>ui.png</string>
             <key>size</key>
-            <string>{128,128}</string>
+            <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:8155d303dfac6a29e45cd98072d560d1:4c83e4108094794c5ada43a22bf1f754:e489eb72a1dac3e9a97caaf8aad1ac42$</string>
+            <string>$TexturePacker:SmartUpdate:d7d4ce70e07ec0f3b116b62952f93bb1:e5b62b3c3b75d0b6eb30fa4d93a874c6:e489eb72a1dac3e9a97caaf8aad1ac42$</string>
             <key>textureFileName</key>
             <string>ui.png</string>
         </dict>

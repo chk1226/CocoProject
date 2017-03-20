@@ -70,6 +70,10 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	{
 		director->setContentScaleFactor(MIN(frameSize.height / designResolutionSize.height, frameSize.width / designResolutionSize.width));
 	}
+	MyLog("******* content scale factor : %f", director->getContentScaleFactor());
+
+	director->setContentScaleFactor(MIN(director->getContentScaleFactor(), 1.0f));
+
 	//else if (frameSize.height > smallResolutionSize.height)
 	//{
 	//	director->setContentScaleFactor(frameSize.height / designResolutionSize.height);

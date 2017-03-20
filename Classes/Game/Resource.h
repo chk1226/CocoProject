@@ -13,7 +13,6 @@ namespace MyGame
 	const int PassBitmask = 3;
 	const int ObstacleBitmask = 4;
 
-
 	class Resource
 	{
 	public:
@@ -53,8 +52,12 @@ namespace MyGame
 		const char* PassName = "tileBlue_08";
 		const char* BirdSpriteName = "frame-%d.png";
 		const char* UIFieldBGName = "metalPanel.png";
+		const char* UIFieldBGPlateName = "metalPanel_plate.png";
+		const char* UIFieldBGYellowName = "metalPanel_yellow.png";
 		const char* UIGreenButtonName = "squareGreen.png";
 		const char* UIRedButtonName = "squareRed.png";
+		const char* UIYellowButtonName = "squareYellow.png";
+		const char* UICloseName = "transparentLight45.png";
 		const char* DataFileName = "save";
 
 
@@ -62,6 +65,10 @@ namespace MyGame
 		const cocos2d::Color3B B_2c = cocos2d::Color3B(84, 68, 123);
 		const cocos2d::Color3B B_3c = cocos2d::Color3B(255, 239, 189);
 		const cocos2d::Color3B B_4c = cocos2d::Color3B(142, 110, 83);
+
+		const char* ServerIP = "192.168.240.97:9527";
+		const char* SAPITopScore = "TopScore";
+		const char* SAPISaveScore = "SaveScore";
 
 		cocos2d::SpriteFrame* GetCharacterSpriteFrame(int id);
 		cocos2d::SpriteFrame* GetCoreSpriteFrame(std::string filename);

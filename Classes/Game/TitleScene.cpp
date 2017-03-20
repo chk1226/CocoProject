@@ -21,7 +21,6 @@ namespace MyGame
 		auto layer = TitleScene::create();
 		scene->addChild(layer);
 
-
 		return scene;
 	}
 
@@ -57,6 +56,11 @@ namespace MyGame
 		{
 			Director::getInstance()->getEventDispatcher()->removeEventListener(m_listener);
 		}
+
+		if (m_rankListener)
+		{
+			Director::getInstance()->getEventDispatcher()->removeEventListener(m_rankListener);
+		}
 	}
 
 
@@ -78,6 +82,11 @@ namespace MyGame
 		m_listener->setSwallowTouches(true);
 		m_listener->onTouchBegan = [&](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
+			if (cacheGUILayer->getChildByName("rank"))
+			{
+				return false;
+			}
+
 			Vec2 p = touch->getLocation();
 			cocos2d::Rect rect = m_startButton->getBoundingBox();
 
@@ -102,7 +111,6 @@ namespace MyGame
 			onStartGame();
 
 		};
-
 		Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_listener, 30);
 
 		auto fontConfig = ResourceInstance->PixelFutureConfig;
@@ -111,6 +119,54 @@ namespace MyGame
 		label->setTextColor(Color4B::BLACK);
 		label->setPosition(buttonSize.width / 2, buttonSize.height / 2);
 		m_startButton->addChild(label);
+
+		// Rank button
+		m_rankButton = ui::Scale9Sprite::createWithSpriteFrame(ResourceInstance->GetUIFrame(ResourceInstance->UIYellowButtonName));
+		m_rankButton->setCapInsets(Rect(5, 5, 9, 16));
+		m_rankButton->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2 - 200));
+		m_rankButton->setContentSize(buttonSize);
+		cacheGUILayer->addChild(m_rankButton);
+
+		m_rankListener = EventListenerTouchOneByOne::create();
+		m_rankListener->setSwallowTouches(true);
+		m_rankListener->onTouchBegan = [&](cocos2d::Touch* touch, cocos2d::Event* event)
+		{
+			if (cacheGUILayer->getChildByName("rank"))
+			{
+				return false;
+			}
+
+
+			Vec2 p = touch->getLocation();
+			cocos2d::Rect rect = m_rankButton->getBoundingBox();
+
+			if (m_rankButton->getParent())
+			{
+				auto w_origin = m_rankButton->getParent()->convertToWorldSpace(rect.origin);
+				rect.origin = w_origin;
+			}
+
+
+			if (rect.containsPoint(p))
+			{
+				return true; // to indicate that we have consumed it.
+			}
+
+			return false; // we did not consume this event, pass thru.
+		};
+
+		m_rankListener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
+		{
+			// show rank
+			onRankDialog();
+		};
+
+		Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_rankListener, 30);
+
+		label = Label::createWithTTF(fontConfig, "Rank");
+		label->setTextColor(Color4B::BLACK);
+		label->setPosition(buttonSize.width / 2, buttonSize.height / 2);
+		m_rankButton->addChild(label);
 
 	}
 
@@ -132,6 +188,13 @@ namespace MyGame
 
 		cacheMap->SetUp();
 		cacheMap->ObstacleEnable = false;
+	}
+
+	void TitleScene::onRankDialog()
+	{
+		auto BoardPage = ScoreBoard::create();
+		cacheGUILayer->addChild(BoardPage, 0, "rank");
+
 	}
 
 

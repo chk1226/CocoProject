@@ -175,6 +175,10 @@
             <filename>UI pack Space/PNG/metalPanel.png</filename>
             <filename>UI pack Space/PNG/squareGreen.png</filename>
             <filename>UI pack Space/PNG/squareRed.png</filename>
+            <filename>UI pack Space/PNG/squareYellow.png</filename>
+            <filename>UI pack Space/PNG/metalPanel_plate.png</filename>
+            <filename>UI pack Space/PNG/metalPanel_yellow.png</filename>
+            <filename>onscreenControls/Sprites/transparentLight/transparentLight45.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
