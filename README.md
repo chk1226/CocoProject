@@ -7,3 +7,7 @@ android debug
 ```
   cocos compile -s *project path* -p android -m debug
 ```
+ADB install
+```
+  adb -s *device* install *apk path*
+```
