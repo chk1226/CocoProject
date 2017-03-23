@@ -58,17 +58,25 @@ namespace MyGame
 		const char* UIRedButtonName = "squareRed.png";
 		const char* UIYellowButtonName = "squareYellow.png";
 		const char* UICloseName = "transparentLight45.png";
+		const char* UI4x4W = "4x4.png";
 		const char* DataFileName = "save";
+		const char* GUIDFileName = "guid";
+		const char* FXCoin = "audio/coins.mp3";
+		const char* FXPunch = "audio/punch.mp3";
+		const char* FXOh = "audio/oh.mp3";
+		const char* FXClick = "audio/click.mp3";
+		const char* FXJump = "audio/jump.mp3";
+
 
 
 		const cocos2d::Color3B B_1c = cocos2d::Color3B(216, 191, 158);
 		const cocos2d::Color3B B_2c = cocos2d::Color3B(84, 68, 123);
 		const cocos2d::Color3B B_3c = cocos2d::Color3B(255, 239, 189);
 		const cocos2d::Color3B B_4c = cocos2d::Color3B(142, 110, 83);
-
-		const char* ServerIP = "192.168.240.97:9527";
-		const char* SAPITopScore = "TopScore";
-		const char* SAPISaveScore = "SaveScore";
+		
+		//font
+		const char* TTFPixelBlockPath = "fonts/kenpixel_blocks.ttf";
+		const char* TTFPixelFuturePath = "fonts/kenvector_future_thin.ttf";
 
 		cocos2d::SpriteFrame* GetCharacterSpriteFrame(int id);
 		cocos2d::SpriteFrame* GetCoreSpriteFrame(std::string filename);
@@ -78,12 +86,17 @@ namespace MyGame
 		std::string GetTerrainSetName();
 		std::string GetObstacleSetName();
 		const cocos2d::Color3B& GetBackgroundColor();
-		void SaveFile(std::string data);
-		std::string LoadFile();
 
-		//font
-		cocos2d::TTFConfig PixelBlockConfig;
-		cocos2d::TTFConfig PixelFutureConfig;
+		void AudioEffectPlay(const char* name);
+
+		enum class FileType
+		{
+			GUID,
+			Score
+		};
+		void SaveFile(FileType type, std::string data);
+		std::string LoadFile(FileType type);
+
 
 		~Resource();
 		static void Create();

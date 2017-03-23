@@ -4,6 +4,19 @@
     <dict>
         <key>frames</key>
         <dict>
+            <key>4x4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,234},{4,4}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{4,4}}</string>
+                <key>sourceSize</key>
+                <string>{4,4}</string>
+            </dict>
             <key>metalPanel.png</key>
             <dict>
                 <key>frame</key>
@@ -105,7 +118,7 @@
             <key>size</key>
             <string>{256,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:d7d4ce70e07ec0f3b116b62952f93bb1:e5b62b3c3b75d0b6eb30fa4d93a874c6:e489eb72a1dac3e9a97caaf8aad1ac42$</string>
+            <string>$TexturePacker:SmartUpdate:67280953517132263aa19c5cd29ce5bb:e0691bfc7cf5dc923f543bb7071a6fcb:e489eb72a1dac3e9a97caaf8aad1ac42$</string>
             <key>textureFileName</key>
             <string>ui.png</string>
         </dict>

@@ -73,14 +73,7 @@ namespace MyGame
 			cacheMap->SetState(Map::State::Stop);
 
 			//show gameover dialog
-			auto dialog = GameoverDialog::create();
-			dialog->Setup(m_score);
-			cacheGUILayer->addChild(dialog);
-
-			if (m_jumpWidget)
-			{
-				m_jumpWidget->setEnabled(false);
-			}
+			showGameOver();
 		}
 
 
@@ -135,7 +128,8 @@ namespace MyGame
 		cacheGUILayer->addChild(m_jumpWidget);
 
 		//add sorce
-		score = Label::createWithTTF(ResourceInstance->PixelBlockConfig, MyFramework::Convert(m_score));
+		TTFConfig fontConfig(ResourceInstance->TTFPixelFuturePath, 70);
+		score = Label::createWithTTF(fontConfig, MyFramework::Convert(m_score));
 		score->setPosition(Vec2(origin.x + visibleSize.width/2, origin.y + visibleSize.height - 150));
 
 
@@ -168,6 +162,67 @@ namespace MyGame
 
 
 		cacheMap->SetUp();
+	}
+
+	int SET_SHAKE_DURATION;
+	void InGameScene::showGameOver()
+	{
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		auto origin = Director::getInstance()->getVisibleOrigin();
+		
+		auto r = ResourceInstance;
+		auto mask = Sprite::createWithSpriteFrame(r->GetUIFrame(r->UI4x4W));
+		mask->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2));
+		mask->setScale(1000);
+		mask->setOpacity(1);
+		cacheGUILayer->addChild(mask, 0, "white_mask");
+		
+		auto seq = Sequence::create(FadeIn::create(0.1f), 
+			FadeOut::create(0.1f), 
+			DelayTime::create(0.2f), 
+			CallFunc::create([this] {
+			
+			cacheGUILayer->removeChildByName("white_mask");
+
+			auto dialog = GameoverDialog::create();
+			dialog->Setup(m_score);
+			cacheGUILayer->addChild(dialog);
+
+			if (m_jumpWidget)
+			{
+				m_jumpWidget->setEnabled(false);
+			}
+		
+		}),
+			CallFunc::create([this] {
+			this->score->runAction(FadeOut::create(0.15f));
+		}),
+			nullptr);
+		mask->runAction(seq);
+
+		// shake
+		m_initialPos = this->getPosition();
+		SET_SHAKE_DURATION = 18;
+		this->schedule(schedule_selector(InGameScene::shakeScreen));
+		
+
+	}
+
+	void InGameScene::shakeScreen(float dt)
+	{
+		float randx = MyFramework::RangeRandom(-50.0f, 50.0);
+		float randy = MyFramework::RangeRandom(-50.0f, 50.0);
+
+		this->setPosition(Point(randx, randy));
+		this->setPosition(Point(m_initialPos.x + randx, m_initialPos.y + randy));
+
+		SET_SHAKE_DURATION -= 1;
+
+		if (SET_SHAKE_DURATION <= 0)
+		{
+			this->setPosition(Point(m_initialPos.x, m_initialPos.y));
+			this->unschedule(schedule_selector(InGameScene::shakeScreen));
+		}
 	}
 
 

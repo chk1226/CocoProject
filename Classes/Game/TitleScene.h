@@ -19,8 +19,8 @@ namespace MyGame
 		virtual bool init() override;
 		
 		~TitleScene();
-		cocos2d::Layer* cacheGUILayer;
 	private:
+		cocos2d::Layer* cacheGUILayer;
 		cocos2d::Layer* cacheObstacleLayer;
 		cocos2d::Layer* cacheBackgroundLayer;
 		cocos2d::Layer* cacheTerrainLayer;

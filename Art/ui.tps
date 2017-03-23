@@ -179,6 +179,7 @@
             <filename>UI pack Space/PNG/metalPanel_plate.png</filename>
             <filename>UI pack Space/PNG/metalPanel_yellow.png</filename>
             <filename>onscreenControls/Sprites/transparentLight/transparentLight45.png</filename>
+            <filename>4x4.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

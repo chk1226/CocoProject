@@ -29,20 +29,9 @@ namespace MyGame
 
 		requestState = RequestState::Idle;
 
+		saveScoreToServer();
+
 		getTopData();
-
-		//this->runAction(Sequence::create(DelayTime::create(3), CallFunc::create([this]() {
-		//	if (requestState == RequestState::Fail)
-		//	{
-		//		//if (this->getParent())
-		//		//{
-		//		//	this->getParent()->removeChild(this);
-		//		//}
-		//		this->ShowFailUI();
-		//	}
-
-		//	this->WaitShow = false;
-		//}), NULL));
 
 		return true;
 	}
@@ -98,7 +87,7 @@ namespace MyGame
 		requestState = RequestState::Wait;
 
 		auto request = new network::HttpRequest();
-		auto url = "http://" + std::string(ResourceInstance->ServerIP) + "/" + std::string(ResourceInstance->SAPITopScore);
+		auto url = "http://" + std::string(ServerIP) + "/" + std::string(SAPITopScore);
 		request->setUrl(url);
 		request->setRequestType(network::HttpRequest::Type::GET);
 		request->setResponseCallback([this](network::HttpClient* sender, network::HttpResponse* response) {
@@ -126,7 +115,7 @@ namespace MyGame
 					ss << (*it);
 				}
 
-				MyLog(ss.str().c_str());
+				//MyLog(ss.str().c_str());
 				requestState = RequestState::Get;
 
 				ShowUI();
@@ -134,8 +123,30 @@ namespace MyGame
 
 		});
 
-		network::HttpClient::getInstance()->sendImmediate(request);
-		request->release();
+		network::HttpClient::getInstance()->send(request);
+	}
+
+	void ScoreBoard::saveScoreToServer()
+	{
+		auto bestScore = ResourceInstance->LoadFile(Resource::FileType::Score);
+		auto guid = ResourceInstance->LoadFile(Resource::FileType::GUID);
+		//send request
+		auto request = new network::HttpRequest();
+		//example http://127.0.0.1:9527/Request?value={"mac":"a", "score":100}
+		char buff[150] = { 0 };
+
+		snprintf(buff, sizeof(buff), "http://%s/%s",
+			std::string(ServerIP).c_str(),
+			std::string(SAPISaveScore).c_str());
+		request->setUrl(buff);
+		snprintf(buff, sizeof(buff), "value={\"guid\":\"%s\", \"score\":%d}",
+			guid.c_str(),
+			MyFramework::atoi(bestScore));
+		std::string str(buff);
+		request->setRequestData(str.c_str(), str.length());
+		request->setRequestType(network::HttpRequest::Type::POST);
+
+		network::HttpClient::getInstance()->send(request);
 	}
 
 	void ScoreBoard::ShowUI()
@@ -178,47 +189,56 @@ namespace MyGame
 		}
 
 		char buff[10];
+
+		TTFConfig fontConfig(ResourceInstance->TTFPixelFuturePath, 42);
+		auto label = Label::createWithTTF(fontConfig, "RANK");
+		label->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		label->setTextColor(Color4B::BLACK);
+		label->setPosition(boardSize.width / 2, boardSize.height - 5);
+
+		image->addChild(label);
+
 		for (int i = 0; i < 5; i++)
 		{
-			auto fontConfig = ResourceInstance->PixelFutureConfig;
+			fontConfig.fontFilePath = ResourceInstance->TTFPixelFuturePath;
 			fontConfig.fontSize = 28;
 			snprintf(buff, sizeof(buff), "%dst", i + 1);
-			auto label = Label::createWithTTF(fontConfig, buff);	
+			label = Label::createWithTTF(fontConfig, buff);	
 			label->setAnchorPoint(Vec2::UNIT_Y);
 			label->setTextColor(Color4B::BLACK);
-			label->setPosition(10, boardSize.height - i * 60 - 10);
+			label->setPosition(10, boardSize.height - i * 60 - 70);
 			
 			image->addChild(label);
 
+			fontConfig.fontFilePath = ResourceInstance->TTFPixelBlockPath;
+			fontConfig.fontSize = 28;
 			label = Label::createWithTTF(fontConfig, MyFramework::Convert(scores[i]));
 			label->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
 			label->setTextColor(Color4B::YELLOW);
-			label->setPosition(boardSize.width - 10, boardSize.height - i * 60 - 10);
+			label->setPosition(boardSize.width - 10, boardSize.height - i * 60 - 70);
 
 			image->addChild(label);
 
 		}
 
+		// PLAYER BEST SCORE
+		fontConfig.fontFilePath = ResourceInstance->TTFPixelFuturePath;
+		fontConfig.fontSize = 28;
+		label = Label::createWithTTF(fontConfig, "YOUR BEST SCORE");
+		label->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		label->setTextColor(Color4B::BLACK);
+		label->setPosition(boardSize.width / 2, 100);
 
-		//auto bestScore = ResourceInstance->LoadFile();
-		//label = Label::createWithTTF(fontConfig, bestScore);	//best sorce
-		//label->setAnchorPoint(Vec2::ZERO);
-		//label->setPosition(40, 50);
-		//image->addChild(label);
+		image->addChild(label);
 
-		//fontConfig = ResourceInstance->PixelFutureConfig;
-		//fontConfig.fontSize = 28;
-		//label = Label::createWithTTF(fontConfig, "Score");
-		//label->setAnchorPoint(Vec2::ZERO);
-		//label->setTextColor(Color4B::BLACK);
-		//label->setPosition(20, 200);
-		//image->addChild(label);
+		fontConfig.fontFilePath = ResourceInstance->TTFPixelBlockPath;
+		fontConfig.fontSize = 42;
+		label = Label::createWithTTF(fontConfig, ResourceInstance->LoadFile(Resource::FileType::Score));
+		label->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
+		label->setTextColor(Color4B::YELLOW);
+		label->setPosition(boardSize.width / 2, 70);
 
-		//label = Label::createWithTTF(fontConfig, "Best");
-		//label->setAnchorPoint(Vec2::ZERO);
-		//label->setTextColor(Color4B::BLACK);
-		//label->setPosition(20, 100);
-		//image->addChild(label);
+		image->addChild(label);
 
 		closeButton();
 
@@ -235,7 +255,7 @@ namespace MyGame
 		image->setContentSize(boardSize);
 		this->addChild(image);
 
-		auto fontConfig = ResourceInstance->PixelFutureConfig;
+		TTFConfig fontConfig(ResourceInstance->TTFPixelFuturePath);
 		fontConfig.fontSize = 24;
 		auto label = Label::createWithTTF(fontConfig, "Sorry, Server connect\nfail...");
 		label->setAnchorPoint(Vec2::UNIT_Y);

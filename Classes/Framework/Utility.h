@@ -20,7 +20,10 @@ namespace MyFramework
 	int atoi_16(const std::string& str);
 
 	bool ToBool(std::string str);
+	float RangeRandom(float min, float max);
 	float Lerp(float a, float b, float f);
+
+
 
 	//one-depth clone
 	cocos2d::Node* CloneCCNode(cocos2d::Node* source);

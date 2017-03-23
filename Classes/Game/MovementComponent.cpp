@@ -1,6 +1,6 @@
 #include "Game\MovementComponent.h"
 #include "Game\Logger.h"
-
+#include "Game\Resource.h"
 namespace MyGame
 {
 
@@ -68,6 +68,9 @@ namespace MyGame
 		{
 			return;
 		}
+
+		ResourceInstance->AudioEffectPlay(ResourceInstance->FXJump);
+
 
 		m_CurrentVelocity.y = BurstVelocity;
 		m_ToVecloityY = 0;

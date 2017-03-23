@@ -39,8 +39,7 @@ namespace MyGame
 
 
 		// show game over text
-		auto fontConfig = ResourceInstance->PixelFutureConfig;
-		fontConfig.fontSize = 60;
+		TTFConfig fontConfig(ResourceInstance->TTFPixelFuturePath, 60);
 		auto label = Label::createWithTTF(fontConfig, "GAME OVER");
 		label->setPosition(Vec2(0, 200));
 		this->addChild(label);
@@ -51,21 +50,36 @@ namespace MyGame
 		image->setContentSize(Size(350, 250));
 		this->addChild(image);
 
-		fontConfig = ResourceInstance->PixelBlockConfig;
+		fontConfig.fontFilePath = ResourceInstance->TTFPixelBlockPath;
 		fontConfig.fontSize = 28;
 		label = Label::createWithTTF(fontConfig, MyFramework::Convert(score));	//current sorce
 		label->setAnchorPoint(Vec2::ZERO);
 		label->setPosition(40, 150);
 		image->addChild(label);
 
-		auto bestScore = ResourceInstance->LoadFile();
+		auto bestScore = ResourceInstance->LoadFile(Resource::FileType::Score);
 		label = Label::createWithTTF(fontConfig, bestScore);	//best sorce
+		if (MyFramework::atoi(bestScore) < score) // new best score
+		{
+			ResourceInstance->AudioEffectPlay(ResourceInstance->FXOh);
+
+			label->setString(MyFramework::Convert(score));
+			
+			auto scale_in = ScaleBy::create(0.8f, 1.5f);
+			auto scale_out = scale_in->reverse();
+			auto seq = Sequence::create(EaseOut::create(scale_in, 1), EaseIn::create(scale_out, 1), nullptr);
+			label->runAction(RepeatForever::create(seq));
+			seq = Sequence::create(TintBy::create(0.3f, 223, 109, 10), 
+				TintBy::create(0.3f, 22, 63, 47),
+				TintBy::create(0.3f, 0, 0, 0), nullptr);
+			label->runAction(RepeatForever::create(seq));
+
+		}
 		label->setAnchorPoint(Vec2::ZERO);
 		label->setPosition(40, 50);
 		image->addChild(label);
 
-		fontConfig = ResourceInstance->PixelFutureConfig;
-		fontConfig.fontSize = 28;
+		fontConfig.fontFilePath = ResourceInstance->TTFPixelFuturePath;
 		label = Label::createWithTTF(fontConfig, "Score");
 		label->setAnchorPoint(Vec2::ZERO);
 		label->setTextColor(Color4B::BLACK);
@@ -111,8 +125,7 @@ namespace MyGame
 
 		m_listener->onTouchEnded = [=](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
-			//MyLog("ccccccc");
-
+			ResourceInstance->AudioEffectPlay(ResourceInstance->FXClick);
 			returnTitleScene();
 
 		};
@@ -132,7 +145,7 @@ namespace MyGame
 	{
 		if (current > old)
 		{
-			ResourceInstance->SaveFile(MyFramework::Convert(current));
+			ResourceInstance->SaveFile(Resource::FileType::Score, MyFramework::Convert(current));
 		}
 
 	}

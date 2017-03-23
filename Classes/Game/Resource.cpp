@@ -1,7 +1,7 @@
 #include "Game\Resource.h"
 #include "Game\Logger.h"
 #include "Framework\Utility.h"
-
+#include "audio\include\AudioEngine.h"
 namespace MyGame
 {
 
@@ -108,12 +108,16 @@ namespace MyGame
 		}
 	}
 
-	void Resource::SaveFile(std::string data)
+	void Resource::AudioEffectPlay(const char * name)
+	{
+		cocos2d::experimental::AudioEngine::play2d(name);
+	}
+
+	void Resource::SaveFile(FileType type, std::string data)
 	{
 		auto fileUtils = cocos2d::FileUtils::getInstance();
 		auto path = fileUtils->getWritablePath();
 
-		//MyLog(path.c_str());
 
 		if (!fileUtils->isDirectoryExist(path))
 		{
@@ -129,14 +133,24 @@ namespace MyGame
 			return;
 		}
 
-		if (!fileUtils->writeStringToFile(data, path + DataFileName))
+		std::string filename;
+		if (type == FileType::GUID)
+		{
+			filename = GUIDFileName;
+		}
+		else
+		{
+			filename = DataFileName;
+		}
+
+		if (!fileUtils->writeStringToFile(data, path + filename))
 		{
 			MyLog("save fail");
 
 		}
 	}
 
-	std::string Resource::LoadFile()
+	std::string Resource::LoadFile(FileType type)
 	{
 		auto fileUtils = cocos2d::FileUtils::getInstance();
 		auto path = fileUtils->getWritablePath();
@@ -148,7 +162,18 @@ namespace MyGame
 			return "0";
 		}
 
-		auto data = fileUtils->getStringFromFile(path + DataFileName);
+		std::string filename;
+		if (type == FileType::GUID)
+		{
+			filename = GUIDFileName;
+		}
+		else
+		{
+			filename = DataFileName;
+		}
+
+
+		auto data = fileUtils->getStringFromFile(path + filename);
 		
 		return (data.length() <= 0) ? "0" : data;
 	}
@@ -191,11 +216,10 @@ namespace MyGame
 		}
 
 
-		// font setup
-		PixelBlockConfig.fontFilePath = "fonts/kenpixel_blocks.ttf";
-		PixelBlockConfig.fontSize = 70;
-
-		PixelFutureConfig.fontFilePath = "fonts/kenvector_future_thin.ttf";
+		//audio
+		cocos2d::experimental::AudioEngine::preload(FXCoin);
+		cocos2d::experimental::AudioEngine::preload(FXPunch);
+		cocos2d::experimental::AudioEngine::preload(FXOh);
 
 
 

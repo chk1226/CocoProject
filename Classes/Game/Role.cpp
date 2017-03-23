@@ -108,6 +108,7 @@ namespace MyGame
 		if ((RoleBitmask == a->getContactTestBitmask() && TerrainBitmask == b->getContactTestBitmask()) ||
 			(TerrainBitmask == a->getContactTestBitmask() && RoleBitmask == b->getContactTestBitmask()))
 		{
+			ResourceInstance->AudioEffectPlay(ResourceInstance->FXPunch);
 			// game over
 			gameOver();
 
@@ -118,6 +119,8 @@ namespace MyGame
 		if ((RoleBitmask == a->getContactTestBitmask() && ObstacleBitmask == b->getContactTestBitmask()) ||
 			(ObstacleBitmask == a->getContactTestBitmask() && RoleBitmask == b->getContactTestBitmask()))
 		{
+			ResourceInstance->AudioEffectPlay(ResourceInstance->FXPunch);
+
 			// game over
 			gameOver();
 
@@ -141,6 +144,8 @@ namespace MyGame
 
 			if (passFlowNum.compare(passName) != 0)
 			{
+				ResourceInstance->AudioEffectPlay(ResourceInstance->FXCoin);
+
 				if (ScoreIncreateCallback)
 				{
 					ScoreIncreateCallback(1);

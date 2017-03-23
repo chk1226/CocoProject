@@ -25,6 +25,7 @@ namespace MyGame
 
 		void closeButton();
 		void getTopData();
+		void saveScoreToServer();
 	};
 
 

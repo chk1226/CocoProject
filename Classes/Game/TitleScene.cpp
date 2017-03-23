@@ -1,6 +1,7 @@
 #include "Game\TitleScene.h"
 #include "Game\Resource.h"
 #include "ui\CocosGUI.h"
+#include "Game\Logger.h"
 
 namespace MyGame
 {
@@ -20,7 +21,7 @@ namespace MyGame
 
 		auto layer = TitleScene::create();
 		scene->addChild(layer);
-
+		
 		return scene;
 	}
 
@@ -63,7 +64,6 @@ namespace MyGame
 		}
 	}
 
-
 	void TitleScene::menuSetup()
 	{
 		auto visibleSize = Director::getInstance()->getVisibleSize();
@@ -80,7 +80,7 @@ namespace MyGame
 
 		m_listener = EventListenerTouchOneByOne::create();
 		m_listener->setSwallowTouches(true);
-		m_listener->onTouchBegan = [&](cocos2d::Touch* touch, cocos2d::Event* event)
+		m_listener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
 			if (cacheGUILayer->getChildByName("rank"))
 			{
@@ -107,14 +107,15 @@ namespace MyGame
 
 		m_listener->onTouchEnded = [=](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
+			ResourceInstance->AudioEffectPlay(ResourceInstance->FXClick);
+
 			// start game
 			onStartGame();
 
 		};
 		Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_listener, 30);
 
-		auto fontConfig = ResourceInstance->PixelFutureConfig;
-		fontConfig.fontSize = 28;
+		TTFConfig fontConfig(ResourceInstance->TTFPixelFuturePath, 28);
 		auto label = Label::createWithTTF(fontConfig, "Start");
 		label->setTextColor(Color4B::BLACK);
 		label->setPosition(buttonSize.width / 2, buttonSize.height / 2);
@@ -129,7 +130,7 @@ namespace MyGame
 
 		m_rankListener = EventListenerTouchOneByOne::create();
 		m_rankListener->setSwallowTouches(true);
-		m_rankListener->onTouchBegan = [&](cocos2d::Touch* touch, cocos2d::Event* event)
+		m_rankListener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
 			if (cacheGUILayer->getChildByName("rank"))
 			{
@@ -157,6 +158,8 @@ namespace MyGame
 
 		m_rankListener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
 		{
+			ResourceInstance->AudioEffectPlay(ResourceInstance->FXClick);
+
 			// show rank
 			onRankDialog();
 		};
@@ -167,6 +170,51 @@ namespace MyGame
 		label->setTextColor(Color4B::BLACK);
 		label->setPosition(buttonSize.width / 2, buttonSize.height / 2);
 		m_rankButton->addChild(label);
+
+
+		// show guid
+		auto guid = ResourceInstance->LoadFile(Resource::FileType::GUID);
+		if (!guid.compare("0"))
+		{
+			char buff[1000] = { 0 };
+			sprintf(buff, "%x%x-%x-%x",
+				cocos2d::random(), cocos2d::random(),                 // Generates a 64-bit Hex number
+				((cocos2d::random() & 0x0fff) | 0x4000),   // Generates a 32-bit Hex number of the form 4xxx (4 indicates the UUID version)
+				cocos2d::random() % 0x3fff + 0x8000);       // Generates a 32-bit Hex number in the range [0x8000, 0xbfff]
+	
+			guid = std::string(buff);
+
+			//GUID pguid;
+			//CoCreateGuid(&pguid);
+			//// Convert the GUID to a string
+			//wchar_t* bstrGuid;
+			//StringFromCLSID(pguid, &bstrGuid);
+			//std::wstring w_s(bstrGuid);
+			//guid = std::string(w_s.begin(), w_s.end());
+			//MyLog(guid.c_str());
+			//::CoTaskMemFree(bstrGuid);
+			
+			ResourceInstance->SaveFile(Resource::FileType::GUID, guid);
+		}
+		else
+		{
+			guid = ResourceInstance->LoadFile(Resource::FileType::GUID);
+		}
+
+		fontConfig.fontSize = 14;
+		label = Label::createWithTTF(fontConfig, guid);
+		label->setTextColor(Color4B::BLACK);
+		label->setAnchorPoint(Vec2::UNIT_X);
+		label->setPosition(origin.x + visibleSize.width, 10);
+		cacheGUILayer->addChild(label);
+
+		// show version
+		label = Label::createWithTTF(fontConfig, "Version:1.0.0");
+		label->setTextColor(Color4B::BLACK);
+		label->setAnchorPoint(Vec2::UNIT_X);
+		label->setPosition(origin.x + visibleSize.width, 30);
+		cacheGUILayer->addChild(label);
+
 
 	}
 

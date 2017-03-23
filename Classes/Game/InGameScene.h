@@ -33,6 +33,7 @@ namespace MyGame
 		cocos2d::Label* score;
 		cocos2d::ui::Widget* m_jumpWidget;
 		int m_score;
+		cocos2d::Vec2 m_initialPos;
 
 
 		std::vector<TouchBeganCallback> m_TouchBeganCallbackList;
@@ -40,6 +41,8 @@ namespace MyGame
 		void guiLayerInit();
 		void roleLayerInit();
 		void mapLayerInit();
+		void showGameOver();
+		void shakeScreen(float dt);
 
 
 		//// implement the create() method manually

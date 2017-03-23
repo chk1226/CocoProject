@@ -108,3 +108,9 @@ bool MyFramework::ToBool(std::string str) {
 	
 	return false;
 }
+
+float MyFramework::RangeRandom(float min, float max)
+{
+	float rnd = ((float)rand() / (float)RAND_MAX);
+	return rnd*(max - min) + min;
+}

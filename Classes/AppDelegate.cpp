@@ -2,6 +2,7 @@
 #include "Game\Logger.h"
 #include "Game\TitleScene.h"
 #include "Game\Resource.h"
+#include "audio\include\AudioEngine.h"
 
 USING_NS_CC;
 
@@ -116,9 +117,9 @@ void AppDelegate::setup()
 // This function will be called when the app is inactive. Note, when receiving a phone call it is invoked.
 void AppDelegate::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
-
+	
     // if you use SimpleAudioEngine, it must be paused
-    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	experimental::AudioEngine::pauseAll();
 }
 
 // this function will be called when the app is active again
@@ -126,5 +127,6 @@ void AppDelegate::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+	experimental::AudioEngine::resumeAll();
+
 }
