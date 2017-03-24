@@ -3,6 +3,7 @@
 
 #include "Game\Role.h"
 #include "Framework\Utility.h"
+
 namespace MyGame
 {
 	extern const float BurstVelocity;

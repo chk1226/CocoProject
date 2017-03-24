@@ -51,6 +51,7 @@ namespace MyGame
 		const char* ObstacleEndName = "door%s_top";
 		const char* PassName = "tileBlue_08";
 		const char* BirdSpriteName = "frame-%d.png";
+		const char* BluePlayerSpriteName = "playerBlue_walk%d.png"; // 1 to 5
 		const char* UIFieldBGName = "metalPanel.png";
 		const char* UIFieldBGPlateName = "metalPanel_plate.png";
 		const char* UIFieldBGYellowName = "metalPanel_yellow.png";
@@ -66,8 +67,8 @@ namespace MyGame
 		const char* FXOh = "audio/oh.mp3";
 		const char* FXClick = "audio/click.mp3";
 		const char* FXJump = "audio/jump.mp3";
-
-
+		const char* FXCheer = "audio/cheer.mp3";
+		const char* FXMusicBox = "audio/music_box.mp3";
 
 		const cocos2d::Color3B B_1c = cocos2d::Color3B(216, 191, 158);
 		const cocos2d::Color3B B_2c = cocos2d::Color3B(84, 68, 123);
@@ -78,16 +79,19 @@ namespace MyGame
 		const char* TTFPixelBlockPath = "fonts/kenpixel_blocks.ttf";
 		const char* TTFPixelFuturePath = "fonts/kenvector_future_thin.ttf";
 
-		cocos2d::SpriteFrame* GetCharacterSpriteFrame(int id);
+		cocos2d::SpriteFrame* GetCharacterSpriteFrame(const char* file, int id);
 		cocos2d::SpriteFrame* GetCoreSpriteFrame(std::string filename);
 		cocos2d::SpriteFrame* GetBackgroundFrame(std::string filename);
 		cocos2d::SpriteFrame* GetUIFrame(std::string filename);
 		
+		bool EnableBlueRole;
+
 		std::string GetTerrainSetName();
 		std::string GetObstacleSetName();
 		const cocos2d::Color3B& GetBackgroundColor();
 
 		void AudioEffectPlay(const char* name);
+		void StopAllAudio();
 
 		enum class FileType
 		{

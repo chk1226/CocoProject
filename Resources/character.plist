@@ -56,6 +56,71 @@
                 <key>sourceSize</key>
                 <string>{359,305}</string>
             </dict>
+            <key>playerBlue_walk1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{777,2},{23,27}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{23,27}}</string>
+                <key>sourceSize</key>
+                <string>{23,27}</string>
+            </dict>
+            <key>playerBlue_walk2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{716,24},{23,27}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{23,27}}</string>
+                <key>sourceSize</key>
+                <string>{23,27}</string>
+            </dict>
+            <key>playerBlue_walk3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{741,27},{23,26}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{23,26}}</string>
+                <key>sourceSize</key>
+                <string>{23,26}</string>
+            </dict>
+            <key>playerBlue_walk4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{750,2},{25,23}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{25,23}}</string>
+                <key>sourceSize</key>
+                <string>{25,23}</string>
+            </dict>
+            <key>playerBlue_walk5.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{716,2},{32,20}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{32,20}}</string>
+                <key>sourceSize</key>
+                <string>{32,20}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -66,7 +131,7 @@
             <key>size</key>
             <string>{1024,1024}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:eabf964cb3d3ab19cbac3f5687c7f31f:a465ab1be3a5d41500203e434343b2e6:9d7b98458f0235176999d89cc8ded93d$</string>
+            <string>$TexturePacker:SmartUpdate:d265d41d930b23081e16d147d100a103:4eda757be608d388829e9b5272b6aa24:9d7b98458f0235176999d89cc8ded93d$</string>
             <key>textureFileName</key>
             <string>character.png</string>
         </dict>

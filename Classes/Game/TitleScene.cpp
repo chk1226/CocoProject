@@ -33,6 +33,8 @@ namespace MyGame
 			return false;
 		}
 
+		ResourceInstance->EnableBlueRole = false;
+
 		// initial layer
 		cacheMapLayer = Layer::create();
 		this->addChild(cacheMapLayer);
@@ -62,6 +64,12 @@ namespace MyGame
 		{
 			Director::getInstance()->getEventDispatcher()->removeEventListener(m_rankListener);
 		}
+
+		if (m_blueListener)
+		{
+			Director::getInstance()->getEventDispatcher()->removeEventListener(m_blueListener);
+		}
+
 	}
 
 	void TitleScene::menuSetup()
@@ -215,11 +223,15 @@ namespace MyGame
 		label->setPosition(origin.x + visibleSize.width, 30);
 		cacheGUILayer->addChild(label);
 
-
+		// easter egg
+		easterEgg(label->getContentSize().width);
+		
 	}
 
 	void TitleScene::onStartGame()
 	{
+		ResourceInstance->StopAllAudio();
+		this->stopAllActions();
 		auto inGameScene = InGameScene::CreateScene();
 		auto director = Director::getInstance();
 		director->replaceScene(inGameScene);
@@ -242,6 +254,78 @@ namespace MyGame
 	{
 		auto BoardPage = ScoreBoard::create();
 		cacheGUILayer->addChild(BoardPage, 0, "rank");
+
+	}
+
+	void TitleScene::easterEgg(float width)
+	{
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+		Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+		// add sprite
+		Vector<SpriteFrame*> animFrame(5);
+		for (int i = 0; i < 5; i++)
+		{
+			auto frame = ResourceInstance->GetCharacterSpriteFrame(ResourceInstance->BluePlayerSpriteName, i + 1);
+			if (frame)
+			{
+				animFrame.pushBack(frame);
+			}
+		}
+
+		auto animation = Animation::createWithSpriteFrames(animFrame, 0.1f);
+		auto animate = Animate::create(animation);
+
+		blueRole = Sprite::createWithSpriteFrame(ResourceInstance->GetCharacterSpriteFrame(ResourceInstance->BluePlayerSpriteName, 1));
+		blueRole->runAction(RepeatForever::create(animate));
+		auto rSize = blueRole->getContentSize();
+		blueRole->setPosition(origin.x + visibleSize.width - width - rSize.height/2, 30 + rSize.width/2);
+		cacheGUILayer->addChild(blueRole);
+
+		//set touch
+		m_blueListener = EventListenerTouchOneByOne::create();
+		m_blueListener->setSwallowTouches(true);
+		m_blueListener->onTouchBegan = [this](cocos2d::Touch* touch, cocos2d::Event* event)
+		{
+			Vec2 p = touch->getLocation();
+			cocos2d::Rect rect = this->blueRole->getBoundingBox();
+
+			if (this->blueRole->getParent())
+			{
+				auto w_origin = this->blueRole->getParent()->convertToWorldSpace(rect.origin);
+				rect.origin = w_origin;
+			}
+
+			if (rect.containsPoint(p))
+			{
+				return true; // to indicate that we have consumed it.
+			}
+
+			return false; // we did not consume this event, pass thru.
+		};
+
+		m_blueListener->onTouchEnded = [this](cocos2d::Touch* touch, cocos2d::Event* event)
+		{
+
+			auto seq = Sequence::create(/*CallFunc::create([] {
+				ResourceInstance->AudioEffectPlay(ResourceInstance->FXMusicBox);
+			}),
+				DelayTime::create(15),*/
+				CallFunc::create([this] {
+				ResourceInstance->AudioEffectPlay(ResourceInstance->FXCheer);
+				ResourceInstance->EnableBlueRole = true;
+				blueRole->runAction(FadeOut::create(0.3f));
+			}), nullptr);
+			this->runAction(seq);
+			
+			if (m_blueListener)
+			{
+				Director::getInstance()->getEventDispatcher()->removeEventListener(m_blueListener);
+				m_blueListener = nullptr;
+			}
+
+		};
+		Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(m_blueListener, 30);
 
 	}
 

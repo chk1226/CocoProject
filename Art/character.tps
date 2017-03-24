@@ -176,6 +176,11 @@
             <filename>Flappy grumpy bird game character/PNG/frame-3.png</filename>
             <filename>Flappy grumpy bird game character/PNG/frame-4.png</filename>
             <filename>Flappy grumpy bird game character/PNG/frame-1.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Players/Player Blue/playerBlue_walk1.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Players/Player Blue/playerBlue_walk2.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Players/Player Blue/playerBlue_walk3.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Players/Player Blue/playerBlue_walk4.png</filename>
+            <filename>abstract-platformer-370-assets/PNG/Players/Player Blue/playerBlue_walk5.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

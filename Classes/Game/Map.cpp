@@ -9,13 +9,13 @@ namespace MyGame
 {
 	USING_NS_CC;
 	
-	const float terrainGroupSpeed = -150.0f;
+	const float terrainGroupSpeed = -250.0f;
 	const float backgroundTilesSpeed = -30.0f;
 	const float backgroundHillSpeed = -60.0f;
 	const float texOffset = 1;
-	const Vec2 obstacleHeightRange = Vec2(2, 8);	
+	const Vec2 obstacleHeightRange = Vec2(2, 7);	
 	const Vec2 obstacleAppearRange = Vec2(400.f, 400.f);
-	const int obstaclePassRange = 3;
+	int passHeight;
 
 	Map::~Map() 
 	{
@@ -90,6 +90,16 @@ namespace MyGame
 
 	void Map::SetUp()
 	{
+		if (ResourceInstance->EnableBlueRole)
+		{
+			passHeight = 2;
+		}
+		else
+		{
+			passHeight = 3;
+		}
+
+
 		// state setup
 		m_state = State::Run;
 		ObstacleEnable = true;
@@ -434,7 +444,6 @@ namespace MyGame
 			node->setPositionX(visibleSize.width + viewOutBuffer);
 
 			// set pass obstacle
-			int passHeight = 4;
 			int startPass = RandomHelper::random_int<int>(obstacleHeightRange.x, obstacleHeightRange.y);
 			passFlowNumber++;
 

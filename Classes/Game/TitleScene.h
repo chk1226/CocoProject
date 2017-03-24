@@ -27,9 +27,10 @@ namespace MyGame
 		cocos2d::Layer* cacheMapLayer;
 		cocos2d::ui::Scale9Sprite* m_startButton;
 		cocos2d::ui::Scale9Sprite* m_rankButton;
+		cocos2d::Sprite* blueRole;
 		cocos2d::EventListenerTouchOneByOne* m_listener;
 		cocos2d::EventListenerTouchOneByOne* m_rankListener;
-
+		cocos2d::EventListenerTouchOneByOne* m_blueListener;
 
 		Map* cacheMap;
 
@@ -38,6 +39,7 @@ namespace MyGame
 		void menuSetup();
 		void mapLayerInit();
 		void onRankDialog();
+		void easterEgg(float width);
 
 		//// implement the create() method manually
 		CREATE_FUNC(TitleScene);

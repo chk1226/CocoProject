@@ -6,7 +6,9 @@ namespace MyGame
 
 	const float BurstVelocity = 500.f;
 	const float GravityVelocity = -500.f;
+	float rate = 6;
 
+	USING_NS_CC;
 
 	bool MovementComponent::init()
 	{
@@ -30,7 +32,6 @@ namespace MyGame
 			gravityCalculate(delta);
 		}
 
-		float rate = 4;
 		m_CurrentVelocity.y = MyFramework::Lerp(m_CurrentVelocity.y, m_ToVecloityY, m_Frequence * delta * rate);
 
 		//MyLog("m_Velocity : %f", m_CurrentVelocity.y);
@@ -69,8 +70,20 @@ namespace MyGame
 			return;
 		}
 
-		ResourceInstance->AudioEffectPlay(ResourceInstance->FXJump);
+		auto master = getOwner();
+		if (master)
+		{
+			auto visibleSize = Director::getInstance()->getVisibleSize();
+			auto origin = Director::getInstance()->getVisibleOrigin();
 
+			if (master->getPositionY() >= origin.y + visibleSize.height - 50)
+			{
+				return;
+			}
+
+		}
+
+		ResourceInstance->AudioEffectPlay(ResourceInstance->FXJump);
 
 		m_CurrentVelocity.y = BurstVelocity;
 		m_ToVecloityY = 0;

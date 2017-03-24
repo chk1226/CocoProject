@@ -35,10 +35,18 @@ namespace MyGame
 
 
 		// add sprite
-		Vector<SpriteFrame*> animFrame(4);
+		auto roelName = ResourceInstance->BirdSpriteName;
+		int frameNum = 4;
+		if (ResourceInstance->EnableBlueRole)
+		{
+			roelName = ResourceInstance->BluePlayerSpriteName;
+			frameNum = 5;
+		}
+
+		Vector<SpriteFrame*> animFrame(frameNum);
 		for (int i = 0; i < 4; i++)
 		{
-			auto frame = ResourceInstance->GetCharacterSpriteFrame(i + 1);
+			auto frame = ResourceInstance->GetCharacterSpriteFrame(roelName, i + 1);
 			if (frame)
 			{
 				animFrame.pushBack(frame);
@@ -48,16 +56,26 @@ namespace MyGame
 		auto animation = Animation::createWithSpriteFrames(animFrame, 0.1f);
 		auto animate = Animate::create(animation);
 		
-		roleSprite = Sprite::createWithSpriteFrame(ResourceInstance->GetCharacterSpriteFrame(1));
-		float scaleValue = 0.25f;
-		roleSprite->setScale(scaleValue);
+		roleSprite = Sprite::createWithSpriteFrame(ResourceInstance->GetCharacterSpriteFrame(roelName, 1));
+		if (!ResourceInstance->EnableBlueRole)
+		{
+			roleSprite->setScale(0.25f);
+		}
 		roleSprite->runAction(RepeatForever::create(animate));
 
-		auto physicsBody = PhysicsBody::createBox(roleSprite->getContentSize(), PhysicsMaterial(0, 0, 0));
+		auto spriteSize = roleSprite->getContentSize();
+
+		if (!ResourceInstance->EnableBlueRole)
+		{
+			spriteSize.width -= 40;
+			spriteSize.height -= 40; 
+		}
+		auto physicsBody = PhysicsBody::createBox(spriteSize, PhysicsMaterial(0, 0, 0));
 		physicsBody->setContactTestBitmask(RoleBitmask);
 		physicsBody->setDynamic(true);
 		
 		roleSprite->setPhysicsBody(physicsBody);
+
 
 		this->addChild(roleSprite, 0, RoleSpriteName);
 

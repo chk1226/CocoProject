@@ -8,13 +8,13 @@ namespace MyGame
 	std::shared_ptr<Resource> ResourceInstance;
 
 
-	cocos2d::SpriteFrame* Resource::GetCharacterSpriteFrame(int id)
+	cocos2d::SpriteFrame* Resource::GetCharacterSpriteFrame(const char* file, int id)
 	{
 		cocos2d::SpriteFrame* spriteFrame = nullptr;
 		if(m_Character)
 		{
 			char buff[50];
-			snprintf(buff, sizeof(buff), BirdSpriteName, id);
+			snprintf(buff, sizeof(buff), file, id);
 			spriteFrame = m_Character->getSpriteFrameByName(buff);
 		}
 		return spriteFrame;
@@ -111,6 +111,11 @@ namespace MyGame
 	void Resource::AudioEffectPlay(const char * name)
 	{
 		cocos2d::experimental::AudioEngine::play2d(name);
+	}
+
+	void Resource::StopAllAudio()
+	{
+		cocos2d::experimental::AudioEngine::stopAll();
 	}
 
 	void Resource::SaveFile(FileType type, std::string data)
